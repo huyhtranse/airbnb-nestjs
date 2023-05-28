@@ -10,7 +10,6 @@ export class AuthService {
   prisma = new PrismaClient();
 
   async logInUser(email: string, mat_khau: string): Promise<any> {
-    const date = new Date();
     const user: any = await this.prisma.nguoiDung.findFirst({ where: { email } });
 
     if (user !== null) {
@@ -45,7 +44,6 @@ export class AuthService {
   }
 
   async signUpUser(ten: string, email: string, mat_khau: string): Promise<any> {
-    const date = new Date();
     const user = await this.prisma.nguoiDung.findFirst({ where: { email } });
 
     if (!user) {
