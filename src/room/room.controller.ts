@@ -1,4 +1,4 @@
-import { Controller, Get, Post, Body, Patch, Param, Delete, HttpException, Put, UseGuards, UseInterceptors, UploadedFile, Headers } from '@nestjs/common';
+import { Controller, Get, Post, Body, Patch, Param, Delete, HttpException, Put, UseGuards, UseInterceptors, UploadedFile, Headers, HttpStatus } from '@nestjs/common';
 import { RoomService } from './room.service';
 import { ApiBearerAuth, ApiBody, ApiConsumes, ApiProperty, ApiTags } from '@nestjs/swagger';
 import { AuthGuard } from '@nestjs/passport';
@@ -90,163 +90,158 @@ class Room {
   })
   id_vi_tri: number;
 }
-@ApiTags("Room")
+@ApiTags('Room')
 @Controller('room')
 export class RoomController {
-  constructor(private readonly roomService: RoomService) { }
+  constructor(private readonly roomService: RoomService) {}
+
   @ApiBody({
-    type: Room
+    type: Room,
   })
   @ApiBearerAuth()
-  @UseGuards(AuthGuard("jwt"))
+  @UseGuards(AuthGuard('jwt'))
   @Post('/create-room/')
-  async createRoom(@Body() body: {
-    "ten_phong": string,
-    "khach": number,
-    "phong_ngu": number,
-    "giuong": number,
-    "phong_tam": number,
-    "mo_ta": string,
-    "gia_tien": number,
-    "may_giat": boolean,
-    "ban_la": boolean,
-    "tivi": boolean,
-    "dieu_hoa": boolean,
-    "wifi": boolean,
-    "do_xe": boolean,
-    "ho_boi": boolean,
-    "ban_ui": boolean,
-    "hinh_anh": string,
-    vi_tri_id: number
-  },
+  async createRoom(
+    @Body()
+    body: {
+      ten_phong: string;
+      khach: number;
+      phong_ngu: number;
+      giuong: number;
+      phong_tam: number;
+      mo_ta: string;
+      gia_tien: number;
+      may_giat: boolean;
+      ban_la: boolean;
+      tivi: boolean;
+      dieu_hoa: boolean;
+      wifi: boolean;
+      do_xe: boolean;
+      ho_boi: boolean;
+      ban_ui: boolean;
+      hinh_anh: string;
+      vi_tri_id: number;
+    },
     @Headers('authorization') auth: string,
-
   ): Promise<any> {
     try {
       return this.roomService.createRoom(body);
     } catch (error) {
-      throw new HttpException(INTERNAL_SERVER_ERROR, 500)
+      throw new HttpException(INTERNAL_SERVER_ERROR, 500);
     }
   }
 
-  // @ApiConsumes('mutilpart/from-data')
-  // @ApiBody({
-  //   description: 'fileload',
-  //   // type: any
-  // })
-  // @UseInterceptors(FileInterceptor('fileUpload', {
-  //   storage: diskStorage({
-  //     destination: process.cwd() + "/public/img",
-  //     filename: (req, file, callback) => callback(null, Date.now() + "_" + file.originalname)
-  //   })
+  @Get()
+  async rooms(@Headers('authorization') auth: string) {
+    try {
+      return await this.roomService.rooms();
+    } catch (error) {
+      throw new HttpException('Lỗi BE', 500);
+    }
+  }
 
-  // }))
+  @Get('/:id')
+  async roomById(
+    @Param('id') id: string,
+    @Headers('authorization') auth: string,
+  ) {
+    try {
+      return this.roomService.roomById(+id);
+    } catch (error) {
+      throw new HttpException(INTERNAL_SERVER_ERROR, 500);
+    }
+  }
 
-  // @UseGuards(AuthGuard('jwt'))
-  // @Put('/update-image/:id') updateImage(
-  //   @Param("id") id: string,
-  //   @UploadedFile() _file: Express.Multer.File,
-  //   @Body() body: {
-  //     ten_hinh: string, mo_ta: string, hinh_id: string
-  //   },
-  // ) {
-  //   const { ten_hinh, mo_ta, hinh_id } = body
-  //   const duong_dan = `localhost:3000/public/img/${_file.filename}`
+  @Get('/location/:locationId')
+  async roomByLocation(
+    @Param('locationId') id: string,
+    @Headers('authorization') auth: string,
+  ) {
+    try {
+      return this.roomService.roomByLocation(+id);
+    } catch (error) {
+      throw new HttpException('Lỗi BE', 500);
+    }
+  }
 
-  //   try {
-  //     return this.roomService.updateImage(id, ten_hinh, mo_ta, hinh_id, duong_dan)
-  //   } catch (error) {
-  //     throw new HttpException("Lỗi BE", 500)
-  //   }
-  // }
-  // @ApiBearerAuth()
-  // @UseGuards(AuthGuard("jwt"))
-  // @Get()
+  @ApiBody({
+    type: Room,
+  })
+  @ApiBearerAuth()
+  @UseGuards(AuthGuard('jwt'))
+  @Put('/update-room/:id')
+  async updateRoomInfo(
+    @Param('id') id: string,
+    @Headers('authorization') auth: string,
+    @Body()
+    body: {
+      ten_phong: string;
+      khach: number;
+      phong_ngu: number;
+      giuong: number;
+      phong_tam: number;
+      mo_ta: string;
+      gia_tien: number;
+      may_giat: boolean;
+      ban_la: boolean;
+      tivi: boolean;
+      dieu_hoa: boolean;
+      wifi: boolean;
+      do_xe: boolean;
+      ho_boi: boolean;
+      ban_ui: boolean;
+      hinh_anh: string;
+      vi_tri_id: number;
+    },
+  ): Promise<any> {
+    try {
+      return await this.roomService.updateRoomInfo(+id, body);
+    } catch (error) {
+      throw new HttpException('Lỗi BE', 500);
+    }
+  }
 
-  // async getAllRoom(
-  //   @Headers('authorization') auth: string,
+  @ApiBearerAuth()
+  @UseGuards(AuthGuard("jwt"))
+  @Delete('/delete/:id')
+  async removeRoom(@Param('id') id: string,
+    @Headers('authorization') auth: string,
+  ) {
+    try {
+      return await this.roomService.remove(+id);
+    } catch (error) {
+      throw new HttpException("Lỗi BE", 500)
+    }
+  }
 
-  // ): Promise<phong[]> {
-  //   try {
-  //     return await this.roomService.getAllRoom();
-  //   } catch (error) {
-  //     throw new HttpException("Lỗi BE", 500)
-  //   }
-  // }
+  @ApiConsumes('mutilpart/form-data')
+  @ApiBody({
+    description: 'fileUpload',
+  })
+  @UseInterceptors(
+    FileInterceptor('fileUpload', {
+      storage: diskStorage({
+        destination: process.cwd() + '/public/img',
+        filename: (req, file, callback) =>
+          callback(null, Date.now() + '_' + file.originalname),
+      }),
+    }),
+  )
+  @UseGuards(AuthGuard('jwt'))
+  @Put('/post-image/:id')
+  updateImage(
+    @Param('id') id: string,
+    @UploadedFile() file: Express.Multer.File,
+  ) {
+    try {
+      const filename = file.filename;
 
-  // @ApiBearerAuth()
-  // @UseGuards(AuthGuard("jwt"))
-  // @Get('/:id')
-  // async getRoomById(@Param('id') id: string,
-  //   @Headers('authorization') auth: string,
-
-  // ): Promise<phong[]> {
-  //   try {
-  //     return this.roomService.getRoomById(+id);
-  //   } catch (error) {
-  //     throw new HttpException("Lỗi BE", 500)
-  //   }
-  // }
-
-  // @ApiBearerAuth()
-  // @UseGuards(AuthGuard("jwt"))
-  // @Get('/location/:id')
-  // async getRoomByLocation(@Param('id') id: string,
-  //   @Headers('authorization') auth: string,
-
-  // ): Promise<phong[]> {
-  //   try {
-  //     return this.roomService.getRoomByLocation(+id);
-  //   } catch (error) {
-  //     throw new HttpException("Lỗi BE", 500)
-  //   }
-  // }
-
-  // @ApiBody({
-  //   type: Room
-  // })
-  // @ApiBearerAuth()
-  // @UseGuards(AuthGuard("jwt"))
-  // @Put('/update-room/:id')
-  // async updateRoomInfo(@Param('id') id: string,
-  //   @Headers('authorization') auth: string
-  //   , @Body() body: {
-  //     "ten_phong": string,
-  //     "khach": number,
-  //     "phong_ngu": number,
-  //     "giuong": number,
-  //     "phong_tam": number,
-  //     "mo_ta": string,
-  //     "gia_tien": number,
-  //     "bep": boolean,
-  //     "may_giat": boolean,
-  //     "ban_la": boolean,
-  //     "tivi": boolean,
-  //     "dieu_hoa": boolean,
-  //     "wifi": boolean,
-  //     "do_xe": boolean,
-  //     "ho_boi": boolean,
-  //     "ban_ui": boolean,
-  //     "hinh_anh": string,
-  //     "id_vi_tri": number
-  //   }): Promise<any> {
-  //   try {
-  //     return await this.roomService.updateRoomInfo(+id, body);
-  //   } catch (error) {
-  //     throw new HttpException("Lỗi BE", 500)
-  //   }
-  // }
-
-  // @ApiBearerAuth()
-  // @UseGuards(AuthGuard("jwt"))
-  // @Delete('/delete-room/:id')
-  // async removeRoom(@Param('id') id: string,
-  //   @Headers('authorization') auth: string,
-  // ) {
-  //   try {
-  //     return await this.roomService.remove(+id);
-  //   } catch (error) {
-  //     throw new HttpException("Lỗi BE", 500)
-  //   }
-  // }
+      return this.roomService.updateImage(id, filename);
+    } catch (error) {
+      throw new HttpException(
+        INTERNAL_SERVER_ERROR,
+        HttpStatus.INTERNAL_SERVER_ERROR,
+      );
+    }
+  }
 }

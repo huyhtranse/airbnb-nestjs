@@ -1,9 +1,9 @@
-import { Injectable } from '@nestjs/common';
-import { PrismaClient } from '@prisma/client';
+import { HttpStatus, Injectable } from '@nestjs/common';
+import { PrismaService } from 'src/prisma.service';
 
 @Injectable()
 export class RoomService {
-   prisma =new PrismaClient()
+  constructor(private prisma: PrismaService) {}
 
   async createRoom(data: {
     ten_phong: string;
@@ -23,10 +23,10 @@ export class RoomService {
     ban_ui: boolean;
     hinh_anh: string;
     vi_tri_id: number;
-  }) {
+  }): Promise<any> {
     const viTri = await this.prisma.viTri.findFirst({
       where: {
-        vi_tri_id: +data.vi_tri_id,
+        vi_tri_id: data.vi_tri_id,
       },
     });
     if (viTri !== null) {
@@ -40,182 +40,177 @@ export class RoomService {
         };
       } else {
         return {
-          statusCode: 400,
-          payload: 'Creation the room failure',
+          statusCode: 404,
+          message: 'Tạo phòng thất bại.',
         };
       }
     } else {
       return {
         statusCode: 404,
-        message: 'The location does not exist.',
+        content: 'Vị trí này không tồn tại.',
       };
     }
   }
 
-  //   async updateImage(id: string, ten_hinh: string, mo_ta: string, hinh_id: string, duong_dan: string) {
-  //     const date = new Date();
-  //     const checkIdImage = await this.prisma.phong.findFirst({
-  //       where: {
-  //         id_phong: +hinh_id
-  //       }
-  //     })
-  //     const checkIdUser = await this.prisma.phong.findFirst({
-  //       where: {
-  //         id_phong: +id
-  //       }
-  //     })
-  //     if (checkIdUser !== null) {
-  //       if (checkIdImage === null) {
-  //         return {
-  //           statusCode: 404,
-  //           "message": " Id ảnh không tồn tại"
-  //         }
-  //       } else {
-  //         await this.prisma.phong.update({
-  //           data: {
-  //             id_phong: +id,
-  //             ten_phong: ten_hinh,
-  //             mo_ta: mo_ta,
-  //           }, where: {
-  //             id_phong: +hinh_id
-  //           }
-  //         })
-  //         return {
-  //           statusCode: 200,
-  //           "message": "Update ảnh thành công ",
-  //           "content": {
-  //             ten_hinh, duong_dan, mo_ta,
-  //           }
-  //         }
-  //       }
-  //     } else {
-  //       return {
-  //         statusCode: 404,
-  //         "message": " Id người dùng không tồn tại'
-  //       }
-  //     }
+  async rooms(): Promise<any> {
+    const rooms = await this.prisma.phong.findMany();
 
-  //   }
+    if (rooms.length > 0) {
+      return {
+        statusCode: HttpStatus.OK,
+        payload: rooms,
+      };
+    } else {
+      return {
+        statusCode: HttpStatus.NO_CONTENT,
+        message: 'No rooms',
+      };
+    }
+  }
 
-  //   async getAllRoom(): Promise<any> {
-  //     const date = new Date();
-  //     const resuft = await this.prisma.phong.findMany()
-  //     if (resuft.length > 0) {
-  //       return {
-  //         statusCode: 200,
-  //         'content': resuf
-  //       }
-  //     } else {
-  //       return {
-  //         statusCode: 404,
-  //         'content': 'Chưa tạo phòng'
-  //       }
+  async roomById(id: number) {
+    const room = await this.prisma.phong.findMany({
+      where: { phong_id: +id },
+    });
+    if (room.length > 0) {
+      return {
+        statusCode: 200,
+        payload: room,
+      };
+    } else {
+      return {
+        statusCode: HttpStatus.NO_CONTENT,
+        message: 'No rooms',
+      };
+    }
+  }
 
-  //     }
+  async roomByLocation(locationId: number): Promise<any> {
+    const room = await this.prisma.phong.findMany({
+      where: { vi_tri_id: +locationId },
+    });
 
-  //   }
+    if (room !== null) {
+      return {
+        statusCode: 200,
+        payload: room,
+      };
+    } else {
+      return {
+        statusCode: 204,
+        message: 'No rooms',
+      };
+    }
+  }
 
-  //   async getRoomById(id: number): Promise<any> {
-  //     const date = new Date();
-  //     const resuft = await this.prisma.phong.findMany({ where: { id_phong: +id } })
-  //     if (resuft.length > 0) {
-  //       return {
-  //         statusCode: 200,
-  //         'content': resuf
-  //       }
-  //     } else {
-  //       return {
-  //         statusCode: 404,
-  //         'content': 'Không tìm thấy phòng'
-  //       }
-  //     }
-  //   }
+  async updateRoomInfo(
+    id: number,
+    data: {
+      ten_phong: string;
+      khach: number;
+      phong_ngu: number;
+      giuong: number;
+      phong_tam: number;
+      mo_ta: string;
+      gia_tien: number;
+      may_giat: boolean;
+      ban_la: boolean;
+      tivi: boolean;
+      dieu_hoa: boolean;
+      wifi: boolean;
+      do_xe: boolean;
+      ho_boi: boolean;
+      ban_ui: boolean;
+      hinh_anh: string;
+      vi_tri_id: number;
+    },
+  ): Promise<any> {
+    const room = await this.prisma.phong.findFirst({
+      where: { phong_id: +id },
+    });
 
-  //   async getRoomByLocation(id: number): Promise<any> {
-  //     const date = new Date();
-  //     const resuft = await this.prisma.phong.findMany({ where: { id_vi_tri: +id } })
-  //     if (resuft !== null) {
-  //       return {
-  //         statusCode: 200,
-  //         'content': resuf
-  //       }
-  //     } else {
-  //       return {
-  //         statusCode: 404,
-  //         'content': 'Không tìm thấy phòng'
-  //       }
-  //     }
-  //   }
-  //   async updateRoomInfo(id: number, data: {
-  //     "ten_phong": string,
-  //     "khach": number,
-  //     "phong_ngu": number,
-  //     "giuong": number,
-  //     "phong_tam": number,
-  //     "mo_ta": string,
-  //     "gia_tien": number,
-  //     "bep": boolean,
-  //     "may_giat": boolean,
-  //     "ban_la": boolean,
-  //     "tivi": boolean,
-  //     "dieu_hoa": boolean,
-  //     "wifi": boolean,
-  //     "do_xe": boolean,
-  //     "ho_boi": boolean,
-  //     "ban_ui": boolean,
-  //     "hinh_anh": string
-  //     "id_vi_tri": number
-  //   }): Promise<any> {
-  //     const date = new Date();
-  //     const checkId = await this.prisma.phong.findFirst({ where: { id_phong: +id } })
+    if (room == null) {
+      return {
+        statusCode: 404,
+        content: 'Room Not Found',
+      };
+    } else {
+      const room = await this.prisma.phong.update({
+        data,
+        where: {
+          phong_id: +id,
+        },
+      });
+      if (room) {
+        return {
+          statusCode: 200,
+          content: room,
+        };
+      } else {
+        return {
+          statusCode: 404,
+          content: 'Cập nhật phòng thất bại',
+        };
+      }
+    }
+  }
 
-  //     if (checkId == null) {
-  //       return {
-  //         statusCode: 404,
-  //         'content': 'Không tìm thấy id bình luận'
-  //       }
-  //     } else {
-  //       const resuft = await this.prisma.phong.update({
-  //         data, where: ({
-  //           id_phong: +id
-  //         })
-  //       })
-  //       if (resuft) {
-  //         return {
-  //           statusCode: 200,
-  //           'content': resuft
-  //         }
-  //       } else {
-  //         return {
-  //           statusCode: 404,
-  //           'content': 'Cập nhật bình luận thất bại'
-  //         }
-  //       }
-  //     }
+  async remove(id: number) {
+    const room = await this.prisma.phong.findFirst({
+      where: { phong_id: +id },
+    });
 
-  //   }
+    if (room === null) {
+      return {
+        statusCode: 204,
+        content: 'Room Not Found',
+      };
+    } else {
+      const res = await this.prisma.phong.delete({
+        where: { phong_id: +id },
+      });
+      
+      if (res) {
+        return {
+          statusCode: 200,
+          message: 'Xoá phòng thành công.',
+        };
+      } else {
+        return {
+          statusCode: 404,
+          message: 'Xoá phòng thất bại.',
+        };
+      }
+    }
+  }
 
-  //   async remove(id: number) {
-  //     const date = new Date();
-  //     const checkId = await this.prisma.phong.findFirst({ where: { id_phong: +id } })
-  //     if (checkId === null) {
-  //       return {
-  //         statusCode: 404,
-  //         'content': 'Không tìm thấy id phòng'
-  //       }
-  //     } else {
-  //       const resuft = await this.prisma.phong.delete({ where: { id_phong: +id } })
-  //       if (resuft) {
-  //         return {
-  //           statusCode: 200,
-  //           'content': 'Xoá phòng thành công'
-  //         }
-  //       } else {
-  //         return {
-  //           statusCode: 404,
-  //           'content': 'Xoá phòng thất bại'
-  //         }
-  //       }
-  //     }
-  //   }
+  async updateImage(id: string, path: string) {
+    const room = await this.prisma.phong.findFirst({
+      where: {
+        phong_id: +id,
+      },
+    });
+
+    if (room === null) {
+      return {
+        statusCode: 404,
+        message: 'Phòng không tồn tại',
+      };
+    } else {
+      const room = await this.prisma.phong.update({
+        data: {
+          hinh_anh: path,
+        },
+        where: {
+          phong_id: +id,
+        },
+      });
+
+      return {
+        statusCode: 200,
+        message: 'Update ảnh thành công.',
+        payload: room,
+      };
+    }
+  }
 }

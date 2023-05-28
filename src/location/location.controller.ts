@@ -61,8 +61,6 @@ export class LocationController {
     }
   }
 
-  // @ApiBearerAuth()
-  // @UseGuards(AuthGuard("jwt"))
   @Get()
   async getAllLocation(@Headers('authorization') auth: string): Promise<any> {
     try {
@@ -75,9 +73,7 @@ export class LocationController {
     }
   }
 
-  // @ApiBearerAuth()
-  // @UseGuards(AuthGuard("jwt"))
-  @Get(`/get-location/:id`)
+  @Get('/get-location/:id')
   async getLocationwithId(
     @Headers('authorization') auth: string,
     @Param('id') id: string,
@@ -145,10 +141,9 @@ export class LocationController {
     }
   }
 
-  @ApiConsumes('mutilpart/from-data')
+  @ApiConsumes('mutilpart/form-data')
   @ApiBody({
-    description: 'fileload',
-    // type: any
+    description: 'fileUpload',
   })
   @UseInterceptors(
     FileInterceptor('fileUpload', {
@@ -165,8 +160,9 @@ export class LocationController {
     @Param('id') id: string,
     @UploadedFile() file: Express.Multer.File,
   ) {
-    const filename = file.filename;
     try {
+      const filename = file.filename;
+
       return this.locationService.postImage(id, filename);
     } catch (error) {
       throw new HttpException(
