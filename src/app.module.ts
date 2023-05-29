@@ -9,6 +9,7 @@ import { ReviewModule } from './review/review.module';
 import { JwtStrategy } from './strategy/jwt.strategy';
 import { RoomModule } from './room/room.module';
 import { LocationModule } from './location/location.module';
+import { BookingModule } from './booking/booking.module';
 
 // kết nối các module khác và controller, serivce lại với nhau
 @Module({
@@ -20,6 +21,7 @@ import { LocationModule } from './location/location.module';
     JwtModule.register({}),
     RoomModule,
     LocationModule,
+    BookingModule,
   ],
   controllers: [AppController],
   providers: [AppService, JwtStrategy],
