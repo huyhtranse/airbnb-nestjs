@@ -1,6 +1,7 @@
 import { Injectable } from '@nestjs/common';
 import { ConfigService } from '@nestjs/config';
 import { JwtService } from '@nestjs/jwt';
+import { ApiTags } from '@nestjs/swagger';
 import { PrismaClient } from '@prisma/client';
 
 @Injectable()
@@ -57,7 +58,7 @@ export class AuthService {
 
       return {
         statusCode: 200,
-        message: "Đang nhập thành công!",
+        message: "Đang ký thành công!",
         token
       }
     } else {

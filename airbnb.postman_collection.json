@@ -1,0 +1,1079 @@
+{
+	"info": {
+		"_postman_id": "2e6a300d-663e-47fe-a66b-2b4f6ee9d806",
+		"name": "airbnb",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+		"_exporter_id": "26305588"
+	},
+	"item": [
+		{
+			"name": "Auth",
+			"item": [
+				{
+					"name": "Login",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"email\": \"hung@gmail.com\",\r\n    \"password\": \"1234\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{base_url}}/auth/login",
+							"host": [
+								"{{base_url}}"
+							],
+							"path": [
+								"auth",
+								"login"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Signup",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"name\": \"Hung\",\r\n    \"email\": \"hung@gmail.com\",\r\n    \"password\": \"1234\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{base_url}}/auth/signup",
+							"host": [
+								"{{base_url}}"
+							],
+							"path": [
+								"auth",
+								"signup"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "Location",
+			"item": [
+				{
+					"name": "Create Location",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJkYXRhIjp7Im5ndW9pX2R1bmdfaWQiOjEsInRlbiI6Ikh1eSIsImVtYWlsIjoiaHV5QGdtYWlsLmNvbSIsIm1hdF9raGF1IjoiMTIzNCIsImRpZW5fdGhvYWkiOm51bGwsIm5nYXlfc2luaCI6bnVsbCwiZ2lvaV90aW5oIjpudWxsLCJyb2xlIjpudWxsfSwiaWF0IjoxNjg1Mjc3NDMxLCJleHAiOjE2ODU4ODIyMzF9.HDt74Tpp6bFo75jZVz5gc-yZvceVlGnoUSlLt2sdUe0",
+									"type": "string"
+								}
+							]
+						},
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"ten_vi_tri\": \"Da Lat\",\r\n    \"binh_luan\": \"lanh lanh\",\r\n    \"quoc_gia\": \"Viet nam\",\r\n    \"hinh_anh\": \"da-lat.jpg\" \r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{base_url}}/location/create-location",
+							"host": [
+								"{{base_url}}"
+							],
+							"path": [
+								"location",
+								"create-location"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Get all locations",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJkYXRhIjp7Im5ndW9pX2R1bmdfaWQiOjksInRlbiI6Ikh1bmciLCJlbWFpbCI6Imh1bmdAZ21haWwuY29tIiwibWF0X2toYXUiOiIxMjM0IiwiZGllbl90aG9haSI6bnVsbCwibmdheV9zaW5oIjpudWxsLCJnaW9pX3RpbmgiOm51bGwsInJvbGUiOm51bGx9LCJpYXQiOjE2ODU3MjI4NTMsImV4cCI6MTY4NjMyNzY1M30.gQH5eZ42b0w0Dp6SMkBFVlk2PtxAwAvk5GelWFiXD_k",
+									"type": "string"
+								}
+							]
+						},
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{base_url}}/location",
+							"host": [
+								"{{base_url}}"
+							],
+							"path": [
+								"location"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Get location by id",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJkYXRhIjp7Im5ndW9pX2R1bmdfaWQiOjksInRlbiI6Ikh1bmciLCJlbWFpbCI6Imh1bmdAZ21haWwuY29tIiwibWF0X2toYXUiOiIxMjM0IiwiZGllbl90aG9haSI6bnVsbCwibmdheV9zaW5oIjpudWxsLCJnaW9pX3RpbmgiOm51bGwsInJvbGUiOm51bGx9LCJpYXQiOjE2ODU3MjI4NTMsImV4cCI6MTY4NjMyNzY1M30.gQH5eZ42b0w0Dp6SMkBFVlk2PtxAwAvk5GelWFiXD_k",
+									"type": "string"
+								}
+							]
+						},
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{base_url}}/location/get-location/1",
+							"host": [
+								"{{base_url}}"
+							],
+							"path": [
+								"location",
+								"get-location",
+								"1"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Update a location",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJkYXRhIjp7Im5ndW9pX2R1bmdfaWQiOjEsInRlbiI6Ikh1eSIsImVtYWlsIjoiaHV5QGdtYWlsLmNvbSIsIm1hdF9raGF1IjoiMTIzNCIsImRpZW5fdGhvYWkiOm51bGwsIm5nYXlfc2luaCI6bnVsbCwiZ2lvaV90aW5oIjpudWxsLCJyb2xlIjpudWxsfSwiaWF0IjoxNjg1Mjc3NDMxLCJleHAiOjE2ODU4ODIyMzF9.HDt74Tpp6bFo75jZVz5gc-yZvceVlGnoUSlLt2sdUe0",
+									"type": "string"
+								}
+							]
+						},
+						"method": "PUT",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"binh_luan\": \"Ho Chi Minh\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{base_url}}/location/update-location/1",
+							"host": [
+								"{{base_url}}"
+							],
+							"path": [
+								"location",
+								"update-location",
+								"1"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Delete location",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJkYXRhIjp7Im5ndW9pX2R1bmdfaWQiOjksInRlbiI6Ikh1bmciLCJlbWFpbCI6Imh1bmdAZ21haWwuY29tIiwibWF0X2toYXUiOiIxMjM0IiwiZGllbl90aG9haSI6bnVsbCwibmdheV9zaW5oIjpudWxsLCJnaW9pX3RpbmgiOm51bGwsInJvbGUiOm51bGx9LCJpYXQiOjE2ODU3MjI4NTMsImV4cCI6MTY4NjMyNzY1M30.gQH5eZ42b0w0Dp6SMkBFVlk2PtxAwAvk5GelWFiXD_k",
+									"type": "string"
+								}
+							]
+						},
+						"method": "DELETE",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{base_url}}/location/delete-location/5",
+							"host": [
+								"{{base_url}}"
+							],
+							"path": [
+								"location",
+								"delete-location",
+								"5"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Post image location",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJkYXRhIjp7Im5ndW9pX2R1bmdfaWQiOjksInRlbiI6Ikh1bmciLCJlbWFpbCI6Imh1bmdAZ21haWwuY29tIiwibWF0X2toYXUiOiIxMjM0IiwiZGllbl90aG9haSI6bnVsbCwibmdheV9zaW5oIjpudWxsLCJnaW9pX3RpbmgiOm51bGwsInJvbGUiOm51bGx9LCJpYXQiOjE2ODU3MjI4NTMsImV4cCI6MTY4NjMyNzY1M30.gQH5eZ42b0w0Dp6SMkBFVlk2PtxAwAvk5GelWFiXD_k",
+									"type": "string"
+								}
+							]
+						},
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "formdata",
+							"formdata": [
+								{
+									"key": "fileUpload",
+									"type": "file",
+									"src": "/C:/Users/htran216/OneDrive - DXC Production/Pictures/cer-toeic-udemy.jpg"
+								}
+							]
+						},
+						"url": {
+							"raw": "{{base_url}}/location/post-image/3",
+							"host": [
+								"{{base_url}}"
+							],
+							"path": [
+								"location",
+								"post-image",
+								"3"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "Room",
+			"item": [
+				{
+					"name": "Get room by id",
+					"protocolProfileBehavior": {
+						"disableBodyPruning": true
+					},
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJkYXRhIjp7Im5ndW9pX2R1bmdfaWQiOjksInRlbiI6Ikh1bmciLCJlbWFpbCI6Imh1bmdAZ21haWwuY29tIiwibWF0X2toYXUiOiIxMjM0IiwiZGllbl90aG9haSI6bnVsbCwibmdheV9zaW5oIjpudWxsLCJnaW9pX3RpbmgiOm51bGwsInJvbGUiOm51bGx9LCJpYXQiOjE2ODU3MjI4NTMsImV4cCI6MTY4NjMyNzY1M30.gQH5eZ42b0w0Dp6SMkBFVlk2PtxAwAvk5GelWFiXD_k",
+									"type": "string"
+								}
+							]
+						},
+						"method": "GET",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": ""
+						},
+						"url": {
+							"raw": "{{base_url}}/room/1",
+							"host": [
+								"{{base_url}}"
+							],
+							"path": [
+								"room",
+								"1"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Get all rooms",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJkYXRhIjp7Im5ndW9pX2R1bmdfaWQiOjEsInRlbiI6Ikh1eSIsImVtYWlsIjoiaHV5QGdtYWlsLmNvbSIsIm1hdF9raGF1IjoiMTIzNCIsImRpZW5fdGhvYWkiOm51bGwsIm5nYXlfc2luaCI6bnVsbCwiZ2lvaV90aW5oIjpudWxsLCJyb2xlIjpudWxsfSwiaWF0IjoxNjg1Mjc3NDMxLCJleHAiOjE2ODU4ODIyMzF9.HDt74Tpp6bFo75jZVz5gc-yZvceVlGnoUSlLt2sdUe0",
+									"type": "string"
+								}
+							]
+						},
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{base_url}}/room",
+							"host": [
+								"{{base_url}}"
+							],
+							"path": [
+								"room"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Create Room",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJkYXRhIjp7Im5ndW9pX2R1bmdfaWQiOjksInRlbiI6Ikh1bmciLCJlbWFpbCI6Imh1bmdAZ21haWwuY29tIiwibWF0X2toYXUiOiIxMjM0IiwiZGllbl90aG9haSI6bnVsbCwibmdheV9zaW5oIjpudWxsLCJnaW9pX3RpbmgiOm51bGwsInJvbGUiOm51bGx9LCJpYXQiOjE2ODU3MjI4NTMsImV4cCI6MTY4NjMyNzY1M30.gQH5eZ42b0w0Dp6SMkBFVlk2PtxAwAvk5GelWFiXD_k",
+									"type": "string"
+								}
+							]
+						},
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"ten_phong\": \"Hotel Danang\",\r\n    \"khach\": 2,\r\n    \"phong_ngu\": 1,\r\n    \"giuong\": 1,\r\n    \"phong_tam\": 1,\r\n    \"mo_ta\": \"Nguyen Hue Sai Gon\",\r\n    \"gia_tien\": 1486000,\r\n    \"may_giat\": true,\r\n    \"ban_la\": false,\r\n    \"tivi\": true,\r\n    \"dieu_hoa\": true,\r\n    \"wifi\": true,\r\n    \"do_xe\": true,\r\n    \"ho_boi\": false,\r\n    \"ban_ui\": false,\r\n    \"hinh_anh\": \"hotel-saigon.png\",\r\n    \"vi_tri_id\": 2\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{base_url}}/room/create-room",
+							"host": [
+								"{{base_url}}"
+							],
+							"path": [
+								"room",
+								"create-room"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Post image room",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJkYXRhIjp7Im5ndW9pX2R1bmdfaWQiOjksInRlbiI6Ikh1bmciLCJlbWFpbCI6Imh1bmdAZ21haWwuY29tIiwibWF0X2toYXUiOiIxMjM0IiwiZGllbl90aG9haSI6bnVsbCwibmdheV9zaW5oIjpudWxsLCJnaW9pX3RpbmgiOm51bGwsInJvbGUiOm51bGx9LCJpYXQiOjE2ODU3MjI4NTMsImV4cCI6MTY4NjMyNzY1M30.gQH5eZ42b0w0Dp6SMkBFVlk2PtxAwAvk5GelWFiXD_k",
+									"type": "string"
+								}
+							]
+						},
+						"method": "PUT",
+						"header": [],
+						"body": {
+							"mode": "formdata",
+							"formdata": [
+								{
+									"key": "fileUpload",
+									"type": "file",
+									"src": "/C:/Users/htran216/OneDrive - DXC Production/Pictures/cer-toeic-udemy.jpg"
+								}
+							]
+						},
+						"url": {
+							"raw": "{{base_url}}/room/post-image/5",
+							"host": [
+								"{{base_url}}"
+							],
+							"path": [
+								"room",
+								"post-image",
+								"5"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Get room by place",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{base_url}}/room/location/1",
+							"host": [
+								"{{base_url}}"
+							],
+							"path": [
+								"room",
+								"location",
+								"1"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Update a room",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJkYXRhIjp7Im5ndW9pX2R1bmdfaWQiOjksInRlbiI6Ikh1bmciLCJlbWFpbCI6Imh1bmdAZ21haWwuY29tIiwibWF0X2toYXUiOiIxMjM0IiwiZGllbl90aG9haSI6bnVsbCwibmdheV9zaW5oIjpudWxsLCJnaW9pX3RpbmgiOm51bGwsInJvbGUiOm51bGx9LCJpYXQiOjE2ODU3MjI4NTMsImV4cCI6MTY4NjMyNzY1M30.gQH5eZ42b0w0Dp6SMkBFVlk2PtxAwAvk5GelWFiXD_k",
+									"type": "string"
+								}
+							]
+						},
+						"method": "PUT",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"ten_phong\": \"Hotel Saigon\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{base_url}}/room/update-room/5",
+							"host": [
+								"{{base_url}}"
+							],
+							"path": [
+								"room",
+								"update-room",
+								"5"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Delete a room",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJkYXRhIjp7Im5ndW9pX2R1bmdfaWQiOjEsInRlbiI6Ikh1eSIsImVtYWlsIjoiaHV5QGdtYWlsLmNvbSIsIm1hdF9raGF1IjoiMTIzNCIsImRpZW5fdGhvYWkiOm51bGwsIm5nYXlfc2luaCI6bnVsbCwiZ2lvaV90aW5oIjpudWxsLCJyb2xlIjpudWxsfSwiaWF0IjoxNjg1Mjc3NDMxLCJleHAiOjE2ODU4ODIyMzF9.HDt74Tpp6bFo75jZVz5gc-yZvceVlGnoUSlLt2sdUe0",
+									"type": "string"
+								}
+							]
+						},
+						"method": "DELETE",
+						"header": [],
+						"url": {
+							"raw": "{{base_url}}/room/delete/6",
+							"host": [
+								"{{base_url}}"
+							],
+							"path": [
+								"room",
+								"delete",
+								"6"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "Review",
+			"item": [
+				{
+					"name": "Post Review",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJkYXRhIjp7Im5ndW9pX2R1bmdfaWQiOjEsInRlbiI6Ikh1eSIsImVtYWlsIjoiaHV5QGdtYWlsLmNvbSIsIm1hdF9raGF1IjoiMTIzNCIsImRpZW5fdGhvYWkiOm51bGwsIm5nYXlfc2luaCI6bnVsbCwiZ2lvaV90aW5oIjpudWxsLCJyb2xlIjpudWxsfSwiaWF0IjoxNjg1Mjc3NDMxLCJleHAiOjE2ODU4ODIyMzF9.HDt74Tpp6bFo75jZVz5gc-yZvceVlGnoUSlLt2sdUe0",
+									"type": "string"
+								}
+							]
+						},
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"noi_dung\": \"Tuyet voi!!!\",\r\n    \"sao_binh_luan\": \"10\",\r\n    \"ngay_binh_luan\": \"2023-06-02T12:45:00.000Z\",\r\n    \"nguoi_dung_id\": 4,\r\n    \"phong_id\": 1\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{base_url}}/review/post-review",
+							"host": [
+								"{{base_url}}"
+							],
+							"path": [
+								"review",
+								"post-review"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Get all reviews",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{base_url}}/review",
+							"host": [
+								"{{base_url}}"
+							],
+							"path": [
+								"review"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Get review by ID",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJkYXRhIjp7Im5ndW9pX2R1bmdfaWQiOjEsInRlbiI6Ikh1eSIsImVtYWlsIjoiaHV5QGdtYWlsLmNvbSIsIm1hdF9raGF1IjoiMTIzNCIsImRpZW5fdGhvYWkiOm51bGwsIm5nYXlfc2luaCI6bnVsbCwiZ2lvaV90aW5oIjpudWxsLCJyb2xlIjpudWxsfSwiaWF0IjoxNjg1Mjc3NDMxLCJleHAiOjE2ODU4ODIyMzF9.HDt74Tpp6bFo75jZVz5gc-yZvceVlGnoUSlLt2sdUe0",
+									"type": "string"
+								}
+							]
+						},
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{base_url}}/review/5",
+							"host": [
+								"{{base_url}}"
+							],
+							"path": [
+								"review",
+								"5"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Get review by room ID",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{base_url}}/review/room/1",
+							"host": [
+								"{{base_url}}"
+							],
+							"path": [
+								"review",
+								"room",
+								"1"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Update a review",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJkYXRhIjp7Im5ndW9pX2R1bmdfaWQiOjEsInRlbiI6Ikh1eSIsImVtYWlsIjoiaHV5QGdtYWlsLmNvbSIsIm1hdF9raGF1IjoiMTIzNCIsImRpZW5fdGhvYWkiOm51bGwsIm5nYXlfc2luaCI6bnVsbCwiZ2lvaV90aW5oIjpudWxsLCJyb2xlIjpudWxsfSwiaWF0IjoxNjg1Mjc3NDMxLCJleHAiOjE2ODU4ODIyMzF9.HDt74Tpp6bFo75jZVz5gc-yZvceVlGnoUSlLt2sdUe0",
+									"type": "string"
+								}
+							]
+						},
+						"method": "PUT",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"noi_dung\": \"Mui rat thom\",\r\n    \"sao_binh_luan\": \"3\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{base_url}}/review/update-review/5",
+							"host": [
+								"{{base_url}}"
+							],
+							"path": [
+								"review",
+								"update-review",
+								"5"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Delete an review",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJkYXRhIjp7Im5ndW9pX2R1bmdfaWQiOjEsInRlbiI6Ikh1eSIsImVtYWlsIjoiaHV5QGdtYWlsLmNvbSIsIm1hdF9raGF1IjoiMTIzNCIsImRpZW5fdGhvYWkiOm51bGwsIm5nYXlfc2luaCI6bnVsbCwiZ2lvaV90aW5oIjpudWxsLCJyb2xlIjpudWxsfSwiaWF0IjoxNjg1Mjc3NDMxLCJleHAiOjE2ODU4ODIyMzF9.HDt74Tpp6bFo75jZVz5gc-yZvceVlGnoUSlLt2sdUe0",
+									"type": "string"
+								}
+							]
+						},
+						"method": "DELETE",
+						"header": [],
+						"url": {
+							"raw": "{{base_url}}/review/delete/9",
+							"host": [
+								"{{base_url}}"
+							],
+							"path": [
+								"review",
+								"delete",
+								"9"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "Booking",
+			"item": [
+				{
+					"name": "Get all bookings",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{base_url}}/booking",
+							"host": [
+								"{{base_url}}"
+							],
+							"path": [
+								"booking"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Create Booking",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJkYXRhIjp7Im5ndW9pX2R1bmdfaWQiOjEsInRlbiI6Ikh1eSIsImVtYWlsIjoiaHV5QGdtYWlsLmNvbSIsIm1hdF9raGF1IjoiMTIzNCIsImRpZW5fdGhvYWkiOm51bGwsIm5nYXlfc2luaCI6bnVsbCwiZ2lvaV90aW5oIjpudWxsLCJyb2xlIjpudWxsfSwiaWF0IjoxNjg1Mjc3NDMxLCJleHAiOjE2ODU4ODIyMzF9.HDt74Tpp6bFo75jZVz5gc-yZvceVlGnoUSlLt2sdUe0",
+									"type": "string"
+								}
+							]
+						},
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"ma_phong\": \"AAA\",\r\n    \"ngay_den\": \"2022-04-30T12:45:00.000Z\",\r\n    \"ngay_di\": \"2022-01-30T12:45:00.000Z\",\r\n    \"so_luong_khach\": 1,\r\n    \"nguoi_dung_id\": 1,\r\n    \"phong_id\": 3\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{base_url}}/booking/create",
+							"host": [
+								"{{base_url}}"
+							],
+							"path": [
+								"booking",
+								"create"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Get booking by id",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJkYXRhIjp7Im5ndW9pX2R1bmdfaWQiOjEsInRlbiI6Ikh1eSIsImVtYWlsIjoiaHV5QGdtYWlsLmNvbSIsIm1hdF9raGF1IjoiMTIzNCIsImRpZW5fdGhvYWkiOm51bGwsIm5nYXlfc2luaCI6bnVsbCwiZ2lvaV90aW5oIjpudWxsLCJyb2xlIjpudWxsfSwiaWF0IjoxNjg1Mjc3NDMxLCJleHAiOjE2ODU4ODIyMzF9.HDt74Tpp6bFo75jZVz5gc-yZvceVlGnoUSlLt2sdUe0",
+									"type": "string"
+								}
+							]
+						},
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{base_url}}/booking/3",
+							"host": [
+								"{{base_url}}"
+							],
+							"path": [
+								"booking",
+								"3"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Get booking by user id",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJkYXRhIjp7Im5ndW9pX2R1bmdfaWQiOjEsInRlbiI6Ikh1eSIsImVtYWlsIjoiaHV5QGdtYWlsLmNvbSIsIm1hdF9raGF1IjoiMTIzNCIsImRpZW5fdGhvYWkiOm51bGwsIm5nYXlfc2luaCI6bnVsbCwiZ2lvaV90aW5oIjpudWxsLCJyb2xlIjpudWxsfSwiaWF0IjoxNjg1Mjc3NDMxLCJleHAiOjE2ODU4ODIyMzF9.HDt74Tpp6bFo75jZVz5gc-yZvceVlGnoUSlLt2sdUe0",
+									"type": "string"
+								}
+							]
+						},
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{base_url}}/booking/user/1",
+							"host": [
+								"{{base_url}}"
+							],
+							"path": [
+								"booking",
+								"user",
+								"1"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Update booking info",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJkYXRhIjp7Im5ndW9pX2R1bmdfaWQiOjEsInRlbiI6Ikh1eSIsImVtYWlsIjoiaHV5QGdtYWlsLmNvbSIsIm1hdF9raGF1IjoiMTIzNCIsImRpZW5fdGhvYWkiOm51bGwsIm5nYXlfc2luaCI6bnVsbCwiZ2lvaV90aW5oIjpudWxsLCJyb2xlIjpudWxsfSwiaWF0IjoxNjg1Mjc3NDMxLCJleHAiOjE2ODU4ODIyMzF9.HDt74Tpp6bFo75jZVz5gc-yZvceVlGnoUSlLt2sdUe0",
+									"type": "string"
+								}
+							]
+						},
+						"method": "PUT",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"ma_phong\": \"A11\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{base_url}}/booking/update/8",
+							"host": [
+								"{{base_url}}"
+							],
+							"path": [
+								"booking",
+								"update",
+								"8"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Delete a booking",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJkYXRhIjp7Im5ndW9pX2R1bmdfaWQiOjEsInRlbiI6Ikh1eSIsImVtYWlsIjoiaHV5QGdtYWlsLmNvbSIsIm1hdF9raGF1IjoiMTIzNCIsImRpZW5fdGhvYWkiOm51bGwsIm5nYXlfc2luaCI6bnVsbCwiZ2lvaV90aW5oIjpudWxsLCJyb2xlIjpudWxsfSwiaWF0IjoxNjg1Mjc3NDMxLCJleHAiOjE2ODU4ODIyMzF9.HDt74Tpp6bFo75jZVz5gc-yZvceVlGnoUSlLt2sdUe0",
+									"type": "string"
+								}
+							]
+						},
+						"method": "DELETE",
+						"header": [],
+						"url": {
+							"raw": "{{base_url}}/booking/delete/9",
+							"host": [
+								"{{base_url}}"
+							],
+							"path": [
+								"booking",
+								"delete",
+								"9"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "User",
+			"item": [
+				{
+					"name": "Create an user",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJkYXRhIjp7Im5ndW9pX2R1bmdfaWQiOjEsInRlbiI6Ikh1eSIsImVtYWlsIjoiaHV5QGdtYWlsLmNvbSIsIm1hdF9raGF1IjoiMTIzNCIsImRpZW5fdGhvYWkiOm51bGwsIm5nYXlfc2luaCI6bnVsbCwiZ2lvaV90aW5oIjpudWxsLCJyb2xlIjpudWxsfSwiaWF0IjoxNjg1Mjc3NDMxLCJleHAiOjE2ODU4ODIyMzF9.HDt74Tpp6bFo75jZVz5gc-yZvceVlGnoUSlLt2sdUe0",
+									"type": "string"
+								}
+							]
+						},
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"ten\":\"Meo Meo\",\r\n    \"email\":\"meomeo2@gmail.com\",\r\n    \"mat_khau\":\"1234\",\r\n    \"dien_thoai\":\"0321343532\",\r\n    \"ngay_sinh\":\"2000-01-01\",\r\n    \"role\": \"user\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{base_url}}/user/create",
+							"host": [
+								"{{base_url}}"
+							],
+							"path": [
+								"user",
+								"create"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Get all users",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJkYXRhIjp7Im5ndW9pX2R1bmdfaWQiOjksInRlbiI6Ikh1bmciLCJlbWFpbCI6Imh1bmdAZ21haWwuY29tIiwibWF0X2toYXUiOiIxMjM0IiwiZGllbl90aG9haSI6bnVsbCwibmdheV9zaW5oIjpudWxsLCJnaW9pX3RpbmgiOm51bGwsInJvbGUiOm51bGx9LCJpYXQiOjE2ODYzMDM2NDksImV4cCI6MTY4NjkwODQ0OX0.Z0IRykxu6AhlzIVEseNHX0FKc1kOmGk7DWAlUC6RTq4",
+									"type": "string"
+								}
+							]
+						},
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{base_url}}/api/user",
+							"host": [
+								"{{base_url}}"
+							],
+							"path": [
+								"api",
+								"user"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Get user by id",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJkYXRhIjp7Im5ndW9pX2R1bmdfaWQiOjEsInRlbiI6Ikh1eSIsImVtYWlsIjoiaHV5QGdtYWlsLmNvbSIsIm1hdF9raGF1IjoiMTIzNCIsImRpZW5fdGhvYWkiOm51bGwsIm5nYXlfc2luaCI6bnVsbCwiZ2lvaV90aW5oIjpudWxsLCJyb2xlIjpudWxsfSwiaWF0IjoxNjg1Mjc3NDMxLCJleHAiOjE2ODU4ODIyMzF9.HDt74Tpp6bFo75jZVz5gc-yZvceVlGnoUSlLt2sdUe0",
+									"type": "string"
+								}
+							]
+						},
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{base_url}}/user/id/4",
+							"host": [
+								"{{base_url}}"
+							],
+							"path": [
+								"user",
+								"id",
+								"4"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Get users by search name",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{base_url}}/user/name/meo",
+							"host": [
+								"{{base_url}}"
+							],
+							"path": [
+								"user",
+								"name",
+								"meo"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Update an user",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJkYXRhIjp7Im5ndW9pX2R1bmdfaWQiOjksInRlbiI6Ikh1bmciLCJlbWFpbCI6Imh1bmdAZ21haWwuY29tIiwibWF0X2toYXUiOiIxMjM0IiwiZGllbl90aG9haSI6bnVsbCwibmdheV9zaW5oIjpudWxsLCJnaW9pX3RpbmgiOm51bGwsInJvbGUiOm51bGx9LCJpYXQiOjE2ODU3MjI4NTMsImV4cCI6MTY4NjMyNzY1M30.gQH5eZ42b0w0Dp6SMkBFVlk2PtxAwAvk5GelWFiXD_k",
+									"type": "string"
+								}
+							]
+						},
+						"method": "PUT",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"ten\": \"Gau Gau\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{base_url}}/user/update/10",
+							"host": [
+								"{{base_url}}"
+							],
+							"path": [
+								"user",
+								"update",
+								"10"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Delete an user",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJkYXRhIjp7Im5ndW9pX2R1bmdfaWQiOjEsInRlbiI6Ikh1eSIsImVtYWlsIjoiaHV5QGdtYWlsLmNvbSIsIm1hdF9raGF1IjoiMTIzNCIsImRpZW5fdGhvYWkiOm51bGwsIm5nYXlfc2luaCI6bnVsbCwiZ2lvaV90aW5oIjpudWxsLCJyb2xlIjpudWxsfSwiaWF0IjoxNjg1Mjc3NDMxLCJleHAiOjE2ODU4ODIyMzF9.HDt74Tpp6bFo75jZVz5gc-yZvceVlGnoUSlLt2sdUe0",
+									"type": "string"
+								}
+							]
+						},
+						"method": "DELETE",
+						"header": [],
+						"url": {
+							"raw": "{{base_url}}/user/delete/11",
+							"host": [
+								"{{base_url}}"
+							],
+							"path": [
+								"user",
+								"delete",
+								"11"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		}
+	],
+	"event": [
+		{
+			"listen": "prerequest",
+			"script": {
+				"type": "text/javascript",
+				"exec": [
+					""
+				]
+			}
+		},
+		{
+			"listen": "test",
+			"script": {
+				"type": "text/javascript",
+				"exec": [
+					""
+				]
+			}
+		}
+	],
+	"variable": [
+		{
+			"key": "base_url",
+			"value": "localhost:8080/api",
+			"type": "string"
+		}
+	]
+}

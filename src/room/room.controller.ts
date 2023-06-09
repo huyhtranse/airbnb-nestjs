@@ -1,92 +1,129 @@
-import { Controller, Get, Post, Body, Patch, Param, Delete, HttpException, Put, UseGuards, UseInterceptors, UploadedFile, Headers, HttpStatus } from '@nestjs/common';
+import {
+  Controller,
+  Get,
+  Post,
+  Body,
+  Patch,
+  Param,
+  Delete,
+  HttpException,
+  Put,
+  UseGuards,
+  UseInterceptors,
+  UploadedFile,
+  Headers,
+  HttpStatus,
+} from '@nestjs/common';
 import { RoomService } from './room.service';
-import { ApiBearerAuth, ApiBody, ApiConsumes, ApiProperty, ApiTags } from '@nestjs/swagger';
+import {
+  ApiBearerAuth,
+  ApiBody,
+  ApiConsumes,
+  ApiProperty,
+  ApiTags,
+} from '@nestjs/swagger';
 import { AuthGuard } from '@nestjs/passport';
 import { FileInterceptor } from '@nestjs/platform-express';
 import { diskStorage } from 'multer';
 import { INTERNAL_SERVER_ERROR } from 'src/model/model';
 
 class Room {
-
   @ApiProperty({
-    description: "ten_phong", type: String
+    description: 'ten_phong',
+    type: String,
   })
   ten_phong: string;
 
   @ApiProperty({
-    description: "khach", type: Number
+    description: 'khach',
+    type: Number,
   })
   khach: number;
 
   @ApiProperty({
-    description: "phong_ngu", type: Number
+    description: 'phong_ngu',
+    type: Number,
   })
   phong_ngu: number;
 
   @ApiProperty({
-    description: "giuong", type: Number
+    description: 'giuong',
+    type: Number,
   })
   giuong: number;
 
   @ApiProperty({
-    description: "phong_tam", type: Number
+    description: 'phong_tam',
+    type: Number,
   })
   phong_tam: number;
 
   @ApiProperty({
-    description: "mo_ta", type: String
+    description: 'mo_ta',
+    type: String,
   })
   mo_ta: string;
 
   @ApiProperty({
-    description: "gia_tien", type: Number
+    description: 'gia_tien',
+    type: Number,
   })
   gia_tien: number;
 
   @ApiProperty({
-    description: "may_giat", type: Boolean
+    description: 'may_giat',
+    type: Boolean,
   })
   may_giat: boolean;
 
   @ApiProperty({
-    description: "ban_la", type: Boolean
+    description: 'ban_la',
+    type: Boolean,
   })
   ban_la: boolean;
 
   @ApiProperty({
-    description: "tivi", type: Boolean
+    description: 'tivi',
+    type: Boolean,
   })
   tivi: boolean;
 
   @ApiProperty({
-    description: "dieu_hoa", type: Boolean
+    description: 'dieu_hoa',
+    type: Boolean,
   })
   dieu_hoa: boolean;
 
   @ApiProperty({
-    description: "wifi", type: Boolean
+    description: 'wifi',
+    type: Boolean,
   })
   wifi: boolean;
 
   @ApiProperty({
-    description: "do_xe", type: Boolean
+    description: 'do_xe',
+    type: Boolean,
   })
   do_xe: boolean;
 
   @ApiProperty({
-    description: "ho_boi", type: Boolean
+    description: 'ho_boi',
+    type: Boolean,
   })
   ho_boi: boolean;
   @ApiProperty({
-    description: "ban_ui", type: Boolean
+    description: 'ban_ui',
+    type: Boolean,
   })
   ban_ui: boolean;
   @ApiProperty({
-    description: "hinh_anh", type: String
+    description: 'hinh_anh',
+    type: String,
   })
   hinh_anh: string;
   @ApiProperty({
-    description: "id_vi_tri", type: Number
+    description: 'id_vi_tri',
+    type: Number,
   })
   id_vi_tri: number;
 }
@@ -122,7 +159,6 @@ export class RoomController {
       hinh_anh: string;
       vi_tri_id: number;
     },
-    @Headers('authorization') auth: string,
   ): Promise<any> {
     try {
       return this.roomService.createRoom(body);
@@ -132,7 +168,7 @@ export class RoomController {
   }
 
   @Get()
-  async rooms(@Headers('authorization') auth: string) {
+  async rooms() {
     try {
       return await this.roomService.rooms();
     } catch (error) {
@@ -141,10 +177,7 @@ export class RoomController {
   }
 
   @Get('/:id')
-  async roomById(
-    @Param('id') id: string,
-    @Headers('authorization') auth: string,
-  ) {
+  async roomById(@Param('id') id: string) {
     try {
       return this.roomService.roomById(+id);
     } catch (error) {
@@ -153,10 +186,7 @@ export class RoomController {
   }
 
   @Get('/location/:locationId')
-  async roomByLocation(
-    @Param('locationId') id: string,
-    @Headers('authorization') auth: string,
-  ) {
+  async roomByLocation(@Param('locationId') id: string) {
     try {
       return this.roomService.roomByLocation(+id);
     } catch (error) {
@@ -172,7 +202,7 @@ export class RoomController {
   @Put('/update-room/:id')
   async updateRoomInfo(
     @Param('id') id: string,
-    @Headers('authorization') auth: string,
+
     @Body()
     body: {
       ten_phong: string;
@@ -202,15 +232,13 @@ export class RoomController {
   }
 
   @ApiBearerAuth()
-  @UseGuards(AuthGuard("jwt"))
+  @UseGuards(AuthGuard('jwt'))
   @Delete('/delete/:id')
-  async removeRoom(@Param('id') id: string,
-    @Headers('authorization') auth: string,
-  ) {
+  async removeRoom(@Param('id') id: string) {
     try {
       return await this.roomService.remove(+id);
     } catch (error) {
-      throw new HttpException("Lỗi BE", 500)
+      throw new HttpException('Lỗi BE', 500);
     }
   }
 

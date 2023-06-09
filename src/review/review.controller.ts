@@ -66,7 +66,6 @@ export class ReviewController {
   @UseGuards(AuthGuard('jwt'))
   @Post('/post-review/')
   async createReview(
-    @Headers('authorization') auth: string,
     @Body()
     body: {
       noi_dung: string;
@@ -84,7 +83,7 @@ export class ReviewController {
   }
 
   @Get()
-  async reviews(@Headers('authorization') auth: string) {
+  async reviews() {
     try {
       return await this.reviewService.reviews();
     } catch (error) {
@@ -95,10 +94,7 @@ export class ReviewController {
   @ApiBearerAuth()
   @UseGuards(AuthGuard('jwt'))
   @Get('/:id')
-  async reviewById(
-    @Param('id') id: string,
-    @Headers('authorization') auth: string,
-  ) {
+  async reviewById(@Param('id') id: string) {
     try {
       return await this.reviewService.reviewById(id);
     } catch (error) {
@@ -108,10 +104,7 @@ export class ReviewController {
 
   @ApiBearerAuth()
   @Get('/room/:id')
-  async reviewByRoomId(
-    @Param('id') id: number,
-    @Headers('authorization') auth: string,
-  ) {
+  async reviewByRoomId(@Param('id') id: number) {
     try {
       return await this.reviewService.reviewByRoomId(id);
     } catch (error) {
@@ -138,10 +131,7 @@ export class ReviewController {
     },
   ) {
     try {
-      return await this.reviewService.updateReview(
-        body,
-        id,
-      );
+      return await this.reviewService.updateReview(body, id);
     } catch (error) {
       throw new HttpException('Lỗi BE', 500);
     }
@@ -150,10 +140,7 @@ export class ReviewController {
   @ApiBearerAuth()
   @UseGuards(AuthGuard('jwt'))
   @Delete('/delete/:id')
-  async deleteReivew(
-    @Param('id') id: string,
-    @Headers('authorization') auth: string,
-  ) {
+  async deleteReivew(@Param('id') id: string) {
     try {
       return await this.reviewService.deleteReivew(id);
     } catch (error) {

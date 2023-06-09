@@ -2,7 +2,9 @@ import { Injectable } from '@nestjs/common';
 import { CreateLocationDto } from './dto/create-location.dto';
 import { UpdateLocationDto } from './dto/update-location.dto';
 import { PrismaClient } from '@prisma/client';
+import { ApiTags } from '@nestjs/swagger';
 
+@ApiTags("Location")
 @Injectable()
 export class LocationService {
   prisma = new PrismaClient();

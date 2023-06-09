@@ -2,6 +2,9 @@ import { Injectable } from '@nestjs/common';
 import { PrismaClient } from '@prisma/client';
 import { ConfigService } from '@nestjs/config';
 import { JwtService } from '@nestjs/jwt';
+import { ApiTags } from '@nestjs/swagger';
+
+@ApiTags("User")
 @Injectable()
 export class UserService {
   constructor(private jwtService: JwtService, private config: ConfigService) {}

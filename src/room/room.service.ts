@@ -1,6 +1,8 @@
 import { HttpStatus, Injectable } from '@nestjs/common';
+import { ApiTags } from '@nestjs/swagger';
 import { PrismaService } from 'src/prisma.service';
 
+@ApiTags("Room")
 @Injectable()
 export class RoomService {
   constructor(private prisma: PrismaService) {}

@@ -1,6 +1,28 @@
-import { Controller, Get, Post, Body, Patch, Param, Delete, HttpException, Put, UseGuards, Headers, UseInterceptors, UploadedFile, HttpStatus, InternalServerErrorException } from '@nestjs/common';
+import {
+  Controller,
+  Get,
+  Post,
+  Body,
+  Patch,
+  Param,
+  Delete,
+  HttpException,
+  Put,
+  UseGuards,
+  Headers,
+  UseInterceptors,
+  UploadedFile,
+  HttpStatus,
+  InternalServerErrorException,
+} from '@nestjs/common';
 import { LocationService } from './location.service';
-import { ApiBearerAuth, ApiBody, ApiConsumes, ApiProperty, ApiTags } from '@nestjs/swagger';
+import {
+  ApiBearerAuth,
+  ApiBody,
+  ApiConsumes,
+  ApiProperty,
+  ApiTags,
+} from '@nestjs/swagger';
 import { AuthGuard } from '@nestjs/passport';
 import { FileInterceptor } from '@nestjs/platform-express';
 import { diskStorage } from 'multer';
@@ -8,25 +30,28 @@ import { INTERNAL_SERVER_ERROR } from 'src/model/model';
 import { Express } from 'express';
 class Location {
   @ApiProperty({
-    description: "ten_vi_tri", type: String
+    description: 'ten_vi_tri',
+    type: String,
   })
   ten_vi_tri: string;
 
   @ApiProperty({
-    description: "tinh_thanh", type: String
+    description: 'tinh_thanh',
+    type: String,
   })
   tinh_thanh: string;
 
   @ApiProperty({
-    description: "quoc_gia", type: String
+    description: 'quoc_gia',
+    type: String,
   })
   quoc_gia: string;
 
   @ApiProperty({
-    description: "hinh_anh", type: String
+    description: 'hinh_anh',
+    type: String,
   })
   hinh_anh: string;
-
 
   id_vi_tri: number;
 }
@@ -42,7 +67,6 @@ export class LocationController {
   @UseGuards(AuthGuard('jwt'))
   @Post('/create-location/')
   async createLocation(
-    @Headers('authorization') auth: string,
     @Body()
     body: {
       ten_vi_tri: string;
@@ -62,7 +86,7 @@ export class LocationController {
   }
 
   @Get()
-  async getAllLocation(@Headers('authorization') auth: string): Promise<any> {
+  async getAllLocation(): Promise<any> {
     try {
       return await this.locationService.getAllLocation();
     } catch (error) {
@@ -74,10 +98,7 @@ export class LocationController {
   }
 
   @Get('/get-location/:id')
-  async getLocationwithId(
-    @Headers('authorization') auth: string,
-    @Param('id') id: string,
-  ): Promise<any> {
+  async getLocationwithId(@Param('id') id: string): Promise<any> {
     try {
       return await this.locationService.getLocationById(id);
     } catch (error) {
@@ -95,7 +116,6 @@ export class LocationController {
   @UseGuards(AuthGuard('jwt'))
   @Put('/update-location/:id')
   async updateLocation(
-    @Headers('authorization') auth: string,
     @Param('id') id: number,
     @Body()
     body: {
@@ -127,10 +147,7 @@ export class LocationController {
   @ApiBearerAuth()
   @UseGuards(AuthGuard('jwt'))
   @Delete('/delete-location/:id')
-  async deleteLocation(
-    @Headers('authorization') auth: string,
-    @Param('id') id: string,
-  ): Promise<any> {
+  async deleteLocation(@Param('id') id: string): Promise<any> {
     try {
       return await this.locationService.deleteLocation(id);
     } catch (error) {

@@ -95,8 +95,7 @@ export class UserController {
       ngay_sinh: string;
       gioi_tinh: string;
       role: string;
-    },
-    @Headers('authorization') auth: string,
+    }
   ) {
     try {
       return await this.userService.createUser(body);
@@ -108,7 +107,7 @@ export class UserController {
   @ApiBearerAuth()
   @UseGuards(AuthGuard('jwt'))
   @Get()
-  async users(@Headers('authorization') auth: string): Promise<any> {
+  async users(): Promise<any> {
     try {
       return await this.userService.users();
     } catch (error) {
@@ -120,8 +119,7 @@ export class UserController {
   @UseGuards(AuthGuard('jwt'))
   @Get('/id/:id')
   async userByID(
-    @Param('id') id: string,
-    @Headers('authorization') auth: string,
+    @Param('id') id: string
   ): Promise<any> {
     try {
       return await this.userService.userByID(id);
@@ -132,8 +130,7 @@ export class UserController {
 
   @Get('/name/:name')
   async userByName(
-    @Param('name') name: string,
-    @Headers('authorization') auth: string,
+    @Param('name') name: string
   ): Promise<any> {
     try {
       return await this.userService.userByName(name);
@@ -173,8 +170,7 @@ export class UserController {
   @UseGuards(AuthGuard('jwt'))
   @Delete('/delete/:id')
   async deleteUser(
-    @Param('id') id: string,
-    @Headers('authorization') auth: string,
+    @Param('id') id: string
   ): Promise<any> {
     try {
       return await this.userService.deleteUser(id);

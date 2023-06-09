@@ -1,6 +1,8 @@
 import { Injectable } from '@nestjs/common';
+import { ApiTags } from '@nestjs/swagger';
 import { PrismaClient } from '@prisma/client';
 
+@ApiTags("Review")
 @Injectable()
 export class ReviewService {
   prisma = new PrismaClient();

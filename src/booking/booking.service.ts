@@ -2,7 +2,9 @@ import { Injectable } from '@nestjs/common';
 import { CreateBookingDto } from './dto/create-booking.dto';
 import { UpdateBookingDto } from './dto/update-booking.dto';
 import { PrismaClient } from '@prisma/client';
+import { ApiTags } from '@nestjs/swagger';
 
+@ApiTags("Booking")
 @Injectable()
 export class BookingService {
   prisma = new PrismaClient();

@@ -73,7 +73,6 @@ export class BookingController {
       nguoi_dung_id: number;
       phong_id: number;
     },
-    @Headers('authorization') auth: string,
   ): Promise<any> {
     try {
       return await this.bookingService.createBooking(body);
@@ -83,7 +82,7 @@ export class BookingController {
   }
 
   @Get()
-  async bookings(@Headers('authorization') auth: string): Promise<any> {
+  async bookings(): Promise<any> {
     try {
       return await this.bookingService.bookings();
     } catch (error) {
@@ -93,10 +92,7 @@ export class BookingController {
   @ApiBearerAuth()
   @UseGuards(AuthGuard('jwt'))
   @Get('/:id')
-  async getBookingWithId(
-    @Param('id') id: string,
-    @Headers('authorization') auth: string,
-  ): Promise<any> {
+  async getBookingWithId(@Param('id') id: string): Promise<any> {
     try {
       return await this.bookingService.bookingById(id);
     } catch (error) {
@@ -105,10 +101,7 @@ export class BookingController {
   }
 
   @Get('/user/:id')
-  async getBookingWithIdUser(
-    @Param('id') id: string,
-    @Headers('authorization') auth: string,
-  ): Promise<any> {
+  async getBookingWithIdUser(@Param('id') id: string): Promise<any> {
     try {
       return await this.bookingService.bookingByUser(id);
     } catch (error) {
@@ -124,7 +117,7 @@ export class BookingController {
   @Put('/update/:id')
   async updateBooking(
     @Param('id') id: number,
-    @Headers('authorization') auth: string,
+
     @Body()
     body: {
       ma_phong: string;
@@ -163,10 +156,7 @@ export class BookingController {
   @ApiBearerAuth()
   @UseGuards(AuthGuard('jwt'))
   @Delete('/delete/:id')
-  async deleteBooking(
-    @Param('id') id: string,
-    @Headers('authorization') auth: string,
-  ): Promise<any> {
+  async deleteBooking(@Param('id') id: string): Promise<any> {
     try {
       return await this.bookingService.deleteBooking(id);
     } catch (error) {
