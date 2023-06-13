@@ -68,11 +68,11 @@ export class ReviewController {
   async createReview(
     @Body()
     body: {
-      noi_dung: string;
-      sao_binh_luan: string;
-      ngay_binh_luan: string;
-      nguoi_dung_id: number;
-      phong_id: number;
+      content: string;
+      star: string;
+      createdAt: string;
+      userId: number;
+      roomId: number;
     },
   ) {
     try {
@@ -123,11 +123,11 @@ export class ReviewController {
     @Headers('authorization')
     @Body()
     body: {
-      noi_dung: string;
-      sao_binh_luan: string;
-      ngay_binh_luan: string;
-      nguoi_dung_id: number;
-      phong_id: number;
+      content: string;
+      star: string;
+      createdAt: string;
+      userId: number;
+      roomId: number;
     },
   ) {
     try {

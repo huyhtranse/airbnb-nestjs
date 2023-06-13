@@ -15,7 +15,7 @@ export class LocationService {
     quoc_gia: string;
     hinh_anh: string;
   }): Promise<any> {
-    const location = await this.prisma.viTri.create({
+    const location = await this.prisma.locations.create({
       data,
     });
     if (location) {
@@ -32,7 +32,7 @@ export class LocationService {
   }
 
   async getAllLocation() {
-    const locations = await this.prisma.viTri.findMany();
+    const locations = await this.prisma.locations.findMany();
     if (locations.length > 0) {
       return {
         statusCode: 200,
@@ -47,9 +47,9 @@ export class LocationService {
 
   async getLocationById(id: string): Promise<any> {
     const date = new Date();
-    const location = await this.prisma.viTri.findMany({
+    const location = await this.prisma.locations.findMany({
       where: {
-        vi_tri_id: +id,
+        id: +id,
       },
     });
     if (location.length > 0) {
@@ -77,8 +77,8 @@ export class LocationService {
     id: number,
   ): Promise<any> {
     const date = new Date();
-    const checkId = await this.prisma.viTri.findFirst({
-      where: { vi_tri_id: +id },
+    const checkId = await this.prisma.locations.findFirst({
+      where: { id: +id },
     });
     if (checkId == null) {
       return {
@@ -87,10 +87,10 @@ export class LocationService {
         dateTime: date,
       };
     } else {
-      const resuft = await this.prisma.viTri.update({
+      const resuft = await this.prisma.locations.update({
         data,
         where: {
-          vi_tri_id: +id,
+          id: +id,
         },
       });
       if (resuft) {
@@ -110,8 +110,8 @@ export class LocationService {
   }
 
   async deleteLocation(id: string): Promise<any> {
-    const location = await this.prisma.viTri.findFirst({
-      where: { vi_tri_id: +id },
+    const location = await this.prisma.locations.findFirst({
+      where: { id: +id },
     });
 
     if (location === null) {
@@ -120,8 +120,8 @@ export class LocationService {
         content: 'Không tìm thấy vị trí',
       };
     } else {
-      const res = await this.prisma.viTri.delete({
-        where: { vi_tri_id: +id },
+      const res = await this.prisma.locations.delete({
+        where: { id: +id },
       });
 
       if (res) {
@@ -139,20 +139,20 @@ export class LocationService {
   }
 
   async postImage(id: string, filename: string) {
-    const viTri = await this.prisma.viTri.findFirst({
+    const viTri = await this.prisma.locations.findFirst({
       where: {
-        vi_tri_id: +id,
+        id: +id,
       },
     });
 
     if (viTri !== null) {
-      const res = await this.prisma.viTri.update({
+      const res = await this.prisma.locations.update({
         data: {
-          vi_tri_id: +id,
+          id: +id,
           hinh_anh: filename,
         },
         where: {
-          vi_tri_id: +id,
+          id: +id,
         },
       });
 

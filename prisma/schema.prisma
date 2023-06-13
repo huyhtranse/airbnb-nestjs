@@ -7,79 +7,83 @@ datasource db {
   url      = env("DATABASE_URL")
 }
 
-model BinhLuan {
-  binh_luan_id   Int        @id @default(autoincrement())
-  noi_dung       String?    @db.VarChar(255)
-  sao_binh_luan  String?    @db.VarChar(255)
-  ngay_binh_luan DateTime?  @db.DateTime(0)
-  nguoi_dung_id  Int?
-  phong_id       Int?
-  NguoiDung      NguoiDung? @relation(fields: [nguoi_dung_id], references: [nguoi_dung_id], onDelete: NoAction, onUpdate: NoAction, map: "BinhLuan_ibfk_1")
-  Phong          Phong?     @relation(fields: [phong_id], references: [phong_id], onDelete: NoAction, onUpdate: NoAction, map: "BinhLuan_ibfk_2")
-
-  @@index([nguoi_dung_id], map: "nguoi_dung_id")
-  @@index([phong_id], map: "phong_id")
+model locations {
+  id        Int       @id @default(autoincrement())
+  name      String?   @db.VarChar(255)
+  describe  String?   @db.VarChar(225)
+  country   String?   @db.VarChar(255)
+  image     String?   @db.VarChar(255)
+  createdAt DateTime? @default(now()) @db.Timestamp(0)
+  updatedAt DateTime? @default(now()) @db.DateTime(0)
 }
 
-model DatPhong {
-  dat_phong_id   Int        @id @default(autoincrement())
-  ma_phong       String?    @db.VarChar(255)
-  ngay_den       DateTime?  @db.DateTime(0)
-  ngay_di        DateTime?  @db.DateTime(0)
-  so_luong_khach Int?
-  nguoi_dung_id  Int?
-  phong_id       Int?
-  NguoiDung      NguoiDung? @relation(fields: [nguoi_dung_id], references: [nguoi_dung_id], onDelete: NoAction, onUpdate: NoAction, map: "DatPhong_ibfk_1")
-  Phong          Phong?     @relation(fields: [phong_id], references: [phong_id], onDelete: NoAction, onUpdate: NoAction, map: "DatPhong_ibfk_2")
+model bookings {
+  id        Int       @id @default(autoincrement())
+  roomName  String?   @db.VarChar(255)
+  checkIn   DateTime? @db.DateTime(0)
+  checkOut  DateTime? @db.DateTime(0)
+  guest     Int?
+  userId    Int?
+  roomId    Int?
+  createdAt DateTime? @default(now()) @db.Timestamp(0)
+  updatedAt DateTime? @default(now()) @db.DateTime(0)
+  users     users?    @relation(fields: [userId], references: [id], onDelete: NoAction, onUpdate: NoAction, map: "bookings_ibfk_1")
+  rooms     rooms?    @relation(fields: [roomId], references: [id], onDelete: NoAction, onUpdate: NoAction, map: "bookings_ibfk_2")
 
-  @@index([nguoi_dung_id], map: "nguoi_dung_id")
-  @@index([phong_id], map: "phong_id")
+  @@index([roomId], map: "roomId")
+  @@index([userId], map: "userId")
 }
 
-model NguoiDung {
-  nguoi_dung_id Int        @id @default(autoincrement())
-  ten           String?    @db.VarChar(255)
-  email         String?    @db.VarChar(255)
-  mat_khau      String?    @db.VarChar(255)
-  dien_thoai    String?    @db.VarChar(255)
-  ngay_sinh     String?    @db.VarChar(255)
-  gioi_tinh     String?    @db.VarChar(255)
-  role          String?    @db.VarChar(255)
-  BinhLuan      BinhLuan[]
-  DatPhong      DatPhong[]
+model reviews {
+  id        Int       @id @default(autoincrement())
+  content   String?   @db.VarChar(255)
+  star      String?   @db.VarChar(255)
+  userId    Int?
+  roomId    Int?
+  createdAt DateTime? @default(now()) @db.Timestamp(0)
+  updatedAt DateTime? @default(now()) @db.DateTime(0)
+  users     users?    @relation(fields: [userId], references: [id], onDelete: NoAction, onUpdate: NoAction, map: "reviews_ibfk_1")
+  rooms     rooms?    @relation(fields: [roomId], references: [id], onDelete: NoAction, onUpdate: NoAction, map: "reviews_ibfk_2")
+
+  @@index([userId], map: "nguoi_dung_id")
+  @@index([roomId], map: "phong_id")
 }
 
-model Phong {
-  phong_id  Int        @id @default(autoincrement())
-  ten_phong String?    @db.VarChar(255)
-  khach     Int?
-  phong_ngu Int?
-  giuong    Int?
-  phong_tam Int?
-  mo_ta     String?    @db.VarChar(255)
-  gia_tien  Int?
-  may_giat  Boolean?
-  ban_la    Boolean?
-  tivi      Boolean?
-  dieu_hoa  Boolean?
+model rooms {
+  id        Int        @id @default(autoincrement())
+  name      String?    @db.VarChar(255)
+  guest     Int?
+  bedRoom   Int?
+  bed       Int?
+  bathRoom  Int?
+  describe  String?    @db.VarChar(255)
+  price     Int?
+  washer    Boolean?
+  iron      Boolean?
+  tv        Boolean?
+  airCon    Boolean?
   wifi      Boolean?
-  do_xe     Boolean?
-  ho_boi    Boolean?
-  ban_ui    Boolean?
-  hinh_anh  String?    @db.VarChar(255)
-  vi_tri_id Int?
-  BinhLuan  BinhLuan[]
-  DatPhong  DatPhong[]
-  ViTri     ViTri?     @relation(fields: [vi_tri_id], references: [vi_tri_id], onDelete: NoAction, onUpdate: NoAction, map: "Phong_ibfk_1")
-
-  @@index([vi_tri_id], map: "vi_tri_id")
+  kitchen   Boolean?
+  parking   Boolean?
+  pool      Boolean?
+  image     String?    @db.VarChar(255)
+  createdAt DateTime?  @default(now()) @db.Timestamp(0)
+  updatedAt DateTime?  @default(now()) @db.DateTime(0)
+  bookings  bookings[]
+  reviews   reviews[]
 }
 
-model ViTri {
-  vi_tri_id  Int     @id @default(autoincrement())
-  ten_vi_tri String? @db.VarChar(255)
-  binh_luan  String? @db.VarChar(255)
-  quoc_gia   String? @db.VarChar(255)
-  hinh_anh   String? @db.VarChar(255)
-  Phong      Phong[]
+model users {
+  id          Int        @id @default(autoincrement())
+  name        String?    @db.VarChar(255)
+  email       String?    @db.VarChar(255)
+  password    String?    @db.VarChar(255)
+  phoneNumber String?    @db.VarChar(255)
+  birthDate   String?    @db.VarChar(255)
+  gender      String?    @db.VarChar(255)
+  role        String?    @db.VarChar(255)
+  createdAt   DateTime?  @default(now()) @db.Timestamp(0)
+  updatedAt   DateTime?  @default(now()) @db.DateTime(0)
+  bookings    bookings[]
+  reviews     reviews[]
 }

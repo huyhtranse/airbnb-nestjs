@@ -26,9 +26,9 @@ export class RoomService {
     hinh_anh: string;
     vi_tri_id: number;
   }): Promise<any> {
-    const viTri = await this.prisma.viTri.findFirst({
+    const viTri = await this.prisma.locations.findFirst({
       where: {
-        vi_tri_id: data.vi_tri_id,
+        id: data.vi_tri_id,
       },
     });
     if (viTri !== null) {
