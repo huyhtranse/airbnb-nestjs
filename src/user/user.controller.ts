@@ -32,7 +32,6 @@ import {
   ApiTags,
 } from '@nestjs/swagger';
 import { Request } from 'express';
-import { UserInterceptors } from './interceptors/user.interceptor';
 
 class User {
   @ApiProperty({
@@ -73,7 +72,6 @@ class User {
 }
 @ApiTags('User')
 @Controller('user')
-@UseInterceptors(UserInterceptors)
 export class UserController {
   prisma = new PrismaClient();
   constructor(

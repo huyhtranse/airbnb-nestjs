@@ -66,12 +66,12 @@ export class BookingController {
   async createBooking(
     @Body()
     body: {
-      ma_phong: string;
-      ngay_den: string;
-      ngay_di: string;
-      so_luong_khach: number;
-      nguoi_dung_id: number;
-      phong_id: number;
+      roomName: string;
+      checkIn: string;
+      checkOut: string;
+      guest: number;
+      userId: number;
+      roomId: number;
     },
   ): Promise<any> {
     try {
@@ -120,31 +120,31 @@ export class BookingController {
 
     @Body()
     body: {
-      ma_phong: string;
-      ngay_den: string;
-      ngay_di: string;
-      so_luong_khach: number;
-      nguoi_dung_id: number;
-      phong_id: number;
+      roomName: string;
+      checkIn: string;
+      checkOut: string;
+      guest: number;
+      userId: number;
+      roomId: number;
     },
   ): Promise<any> {
     const {
-      ma_phong,
-      ngay_den,
-      ngay_di,
-      so_luong_khach,
-      nguoi_dung_id,
-      phong_id,
+      roomName,
+      checkIn,
+      checkOut,
+      guest,
+      userId,
+      roomId,
     } = body;
     try {
       return await this.bookingService.updateBooking(
         {
-          ma_phong,
-          ngay_den,
-          ngay_di,
-          so_luong_khach,
-          nguoi_dung_id,
-          phong_id,
+          roomName,
+      checkIn,
+      checkOut,
+      guest,
+      userId,
+      roomId,
         },
         id,
       );

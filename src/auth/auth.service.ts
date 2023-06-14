@@ -11,7 +11,7 @@ export class AuthService {
   prisma = new PrismaClient();
 
   async logInUser(email: string, mat_khau: string): Promise<any> {
-    const user: any = await this.prisma.nguoiDung.findFirst({ where: { email } });
+    const user: any = await this.prisma.users.findFirst({ where: { email } });
 
     if (user !== null) {
       
@@ -45,7 +45,7 @@ export class AuthService {
   }
 
   async signUpUser(ten: string, email: string, mat_khau: string): Promise<any> {
-    const user = await this.prisma.nguoiDung.findFirst({ where: { email } });
+    const user = await this.prisma.users.findFirst({ where: { email } });
 
     if (!user) {
       const token = this.jwtService.sign(
@@ -54,7 +54,7 @@ export class AuthService {
       );
       const newUser = { ten, email, mat_khau };
 
-      await this.prisma.nguoiDung.create({ data: newUser })
+      await this.prisma.users.create({ data: newUser })
 
       return {
         statusCode: 200,

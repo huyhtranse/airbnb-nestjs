@@ -88,7 +88,7 @@ export class LocationController {
   @Get()
   async getAllLocation(): Promise<any> {
     try {
-      return await this.locationService.getAllLocation();
+      return await this.locationService.locations();
     } catch (error) {
       throw new HttpException(
         INTERNAL_SERVER_ERROR,

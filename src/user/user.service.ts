@@ -21,10 +21,10 @@ export class UserService {
     role: string;
   }): Promise<any> {
     const { email } = user;
-    const userRes = await this.prisma.nguoiDung.findFirst({ where: { email } });
+    const userRes = await this.prisma.users.findFirst({ where: { email } });
 
     if (userRes === null) {
-      const res = await this.prisma.nguoiDung.create({ data: user });
+      const res = await this.prisma.users.create({ data: user });
       return {
         statusCode: 200,
         message: 'Tạo người dùng thành công',
@@ -40,7 +40,7 @@ export class UserService {
   }
 
   async users(): Promise<any> {
-    const users = await this.prisma.nguoiDung.findMany();
+    const users = await this.prisma.users.findMany();
 
     if (users.length > 0) {
       return {
@@ -55,15 +55,15 @@ export class UserService {
   }
 
   async userByID(id: string): Promise<any> {
-    const resuft = await this.prisma.nguoiDung.findMany({
+    const res = await this.prisma.users.findMany({
       where: {
-        nguoi_dung_id: +id,
+        id: +id,
       },
     });
-    if (resuft.length > 0) {
+    if (res.length > 0) {
       return {
         statusCode: 200,
-        content: resuft,
+        content: res,
       };
     } else {
       return {
@@ -74,9 +74,9 @@ export class UserService {
   }
 
   async userByName(name: string): Promise<any> {
-    const users = await this.prisma.nguoiDung.findMany({
+    const users = await this.prisma.users.findMany({
       where: {
-        ten: {
+        name: {
           contains: name,
         },
       },
@@ -106,8 +106,8 @@ export class UserService {
     },
     id: number,
   ): Promise<any> {
-    const checkId = await this.prisma.nguoiDung.findFirst({
-      where: { nguoi_dung_id: +id },
+    const checkId = await this.prisma.users.findFirst({
+      where: { id: +id },
     });
     if (checkId == null) {
       return {
@@ -115,16 +115,16 @@ export class UserService {
         content: 'Không tìm thấy id người dùng',
       };
     } else {
-      const resuft = await this.prisma.nguoiDung.update({
+      const res = await this.prisma.users.update({
         data,
         where: {
-          nguoi_dung_id: +id,
+          id: +id,
         },
       });
-      if (resuft) {
+      if (res) {
         return {
           statusCode: 200,
-          content: resuft,
+          content: res,
         };
       } else {
         return {
@@ -136,8 +136,8 @@ export class UserService {
   }
 
   async deleteUser(id: string): Promise<any> {
-    const checkId = await this.prisma.nguoiDung.findFirst({
-      where: { nguoi_dung_id: +id },
+    const checkId = await this.prisma.users.findFirst({
+      where: { id: +id },
     });
     if (checkId === null) {
       return {
@@ -145,10 +145,10 @@ export class UserService {
         content: 'Không tìm thấy id người dùng',
       };
     } else {
-      const resuft = await this.prisma.nguoiDung.delete({
-        where: { nguoi_dung_id: +id },
+      const res = await this.prisma.users.delete({
+        where: { id: +id },
       });
-      if (resuft) {
+      if (res) {
         return {
           statusCode: 200,
           content: 'Xoá người thành công',
@@ -163,8 +163,8 @@ export class UserService {
   }
 
   async postAvatar(userId: string, path: string) {
-    const user = await this.prisma.nguoiDung.findFirst({
-      where: { nguoi_dung_id: +userId },
+    const user = await this.prisma.users.findFirst({
+      where: { id: +userId },
     });
 
     if (user === null) {
@@ -173,12 +173,12 @@ export class UserService {
         message: 'Phòng không tồn tại',
       };
     } else {
-      const user = await this.prisma.nguoiDung.update({
+      const user = await this.prisma.users.update({
         data: {
           // hinh_anh: path,
         },
         where: {
-          nguoi_dung_id: +userId,
+          id: +userId,
         },
       });
 

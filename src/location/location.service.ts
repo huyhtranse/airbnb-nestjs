@@ -31,13 +31,10 @@ export class LocationService {
     }
   }
 
-  async getAllLocation() {
+  async locations() {
     const locations = await this.prisma.locations.findMany();
     if (locations.length > 0) {
-      return {
-        statusCode: 200,
-        payload: locations,
-      };
+      return locations
     } else
       return {
         statusCode: 404,
@@ -46,7 +43,6 @@ export class LocationService {
   }
 
   async getLocationById(id: string): Promise<any> {
-    const date = new Date();
     const location = await this.prisma.locations.findMany({
       where: {
         id: +id,
@@ -56,13 +52,11 @@ export class LocationService {
       return {
         statusCode: 200,
         content: location,
-        dateTime: date,
       };
     } else {
       return {
         statusCode: 404,
         content: 'Không tìm thấy vị trí',
-        dateTime: date,
       };
     }
   }
@@ -76,7 +70,6 @@ export class LocationService {
     },
     id: number,
   ): Promise<any> {
-    const date = new Date();
     const checkId = await this.prisma.locations.findFirst({
       where: { id: +id },
     });
@@ -84,26 +77,25 @@ export class LocationService {
       return {
         statusCode: 404,
         content: 'Không tìm thấy id vị trí',
-        dateTime: date,
       };
     } else {
-      const resuft = await this.prisma.locations.update({
+      const res = await this.prisma.locations.update({
         data,
         where: {
           id: +id,
         },
       });
-      if (resuft) {
+      if (res) {
         return {
           statusCode: 200,
-          content: resuft,
-          dateTime: date,
+          content: res,
+
         };
       } else {
         return {
           statusCode: 404,
           content: 'Cập nhật vị trí thất bại',
-          dateTime: date,
+
         };
       }
     }
@@ -149,7 +141,7 @@ export class LocationService {
       const res = await this.prisma.locations.update({
         data: {
           id: +id,
-          hinh_anh: filename,
+          image: filename,
         },
         where: {
           id: +id,

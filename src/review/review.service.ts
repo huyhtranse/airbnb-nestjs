@@ -14,7 +14,7 @@ export class ReviewService {
       userId: number;
       roomId: number;
   }): Promise<any> {
-    const review = await this.prisma.review.create({
+    const review = await this.prisma.reviews.create({
       data,
     });
     if (review) {
@@ -31,13 +31,13 @@ export class ReviewService {
   }
 
   async reviewById(id: string): Promise<any> {
-    const resuft = await this.prisma.review.findMany({
+    const res = await this.prisma.reviews.findMany({
       where: { id: +id },
     });
-    if (resuft.length > 0) {
+    if (res.length > 0) {
       return {
         statusCode: 200,
-        content: resuft,
+        content: res,
       };
     } else {
       return {
@@ -48,16 +48,15 @@ export class ReviewService {
   }
 
   async reviewByRoomId(id: number): Promise<any> {
-    const date = new Date();
-    const resuft = await this.prisma.review.findMany({
+    const res = await this.prisma.reviews.findMany({
       where: {
         id: +id,
       },
     });
-    if (resuft.length > 0) {
+    if (res.length > 0) {
       return {
         statusCode: 200,
-        content: resuft,
+        content: res,
       };
     } else {
       return {
@@ -68,7 +67,7 @@ export class ReviewService {
   }
 
   async reviews(): Promise<any> {
-    const reviews = await this.prisma.review.findMany();
+    const reviews = await this.prisma.reviews.findMany();
     if (reviews.length > 0) {
       return {
         statusCode: 200,
@@ -91,7 +90,7 @@ export class ReviewService {
     },
     id: number,
   ): Promise<any> {
-    const checkId = await this.prisma.review.findFirst({
+    const checkId = await this.prisma.reviews.findFirst({
       where: { id: +id },
     });
     if (checkId == null) {
@@ -100,16 +99,16 @@ export class ReviewService {
         content: 'Không tìm thấy binh luan',
       };
     } else {
-      const resuft = await this.prisma.review.update({
+      const res = await this.prisma.reviews.update({
         data,
         where: {
           id: +id,
         },
       });
-      if (resuft) {
+      if (res) {
         return {
           statusCode: 200,
-          content: resuft,
+          content: res,
         };
       } else {
         return {
@@ -121,7 +120,7 @@ export class ReviewService {
   }
 
   async deleteReivew(id: string): Promise<any> {
-    const checkId = await this.prisma.review.findFirst({
+    const checkId = await this.prisma.reviews.findFirst({
       where: { id: +id },
     });
     if (checkId === null) {
@@ -130,10 +129,10 @@ export class ReviewService {
         content: 'Không tìm thấy id bình luận',
       };
     } else {
-      const resuft = await this.prisma.review.delete({
+      const res = await this.prisma.reviews.delete({
         where: {  id: +id },
       });
-      if (resuft) {
+      if (res) {
         return {
           statusCode: 200,
           content: 'Xoá comment thành công',

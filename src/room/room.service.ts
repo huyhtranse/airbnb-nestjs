@@ -32,7 +32,7 @@ export class RoomService {
       },
     });
     if (viTri !== null) {
-      const room = await this.prisma.phong.create({
+      const room = await this.prisma.rooms.create({
         data,
       });
       if (room) {
@@ -55,7 +55,7 @@ export class RoomService {
   }
 
   async rooms(): Promise<any> {
-    const rooms = await this.prisma.phong.findMany();
+    const rooms = await this.prisma.rooms.findMany();
 
     if (rooms.length > 0) {
       return {
@@ -71,8 +71,8 @@ export class RoomService {
   }
 
   async roomById(id: number) {
-    const room = await this.prisma.phong.findMany({
-      where: { phong_id: +id },
+    const room = await this.prisma.rooms.findMany({
+      where: { id: +id },
     });
     if (room.length > 0) {
       return {
@@ -88,8 +88,8 @@ export class RoomService {
   }
 
   async roomByLocation(locationId: number): Promise<any> {
-    const room = await this.prisma.phong.findMany({
-      where: { vi_tri_id: +locationId },
+    const room = await this.prisma.rooms.findMany({
+      where: { id: +locationId },
     });
 
     if (room !== null) {
@@ -127,8 +127,8 @@ export class RoomService {
       vi_tri_id: number;
     },
   ): Promise<any> {
-    const room = await this.prisma.phong.findFirst({
-      where: { phong_id: +id },
+    const room = await this.prisma.rooms.findFirst({
+      where: { id: +id },
     });
 
     if (room == null) {
@@ -137,10 +137,10 @@ export class RoomService {
         content: 'Room Not Found',
       };
     } else {
-      const room = await this.prisma.phong.update({
+      const room = await this.prisma.rooms.update({
         data,
         where: {
-          phong_id: +id,
+          id: +id,
         },
       });
       if (room) {
@@ -158,8 +158,8 @@ export class RoomService {
   }
 
   async remove(id: number) {
-    const room = await this.prisma.phong.findFirst({
-      where: { phong_id: +id },
+    const room = await this.prisma.rooms.findFirst({
+      where: { id: +id },
     });
 
     if (room === null) {
@@ -168,8 +168,8 @@ export class RoomService {
         content: 'Room Not Found',
       };
     } else {
-      const res = await this.prisma.phong.delete({
-        where: { phong_id: +id },
+      const res = await this.prisma.rooms.delete({
+        where: { id: +id },
       });
       
       if (res) {
@@ -187,9 +187,9 @@ export class RoomService {
   }
 
   async updateImage(id: string, path: string) {
-    const room = await this.prisma.phong.findFirst({
+    const room = await this.prisma.rooms.findFirst({
       where: {
-        phong_id: +id,
+        id: +id,
       },
     });
 
@@ -199,12 +199,12 @@ export class RoomService {
         message: 'Phòng không tồn tại',
       };
     } else {
-      const room = await this.prisma.phong.update({
+      const room = await this.prisma.rooms.update({
         data: {
-          hinh_anh: path,
+          image: path,
         },
         where: {
-          phong_id: +id,
+          id: +id,
         },
       });
 
