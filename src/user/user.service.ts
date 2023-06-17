@@ -3,13 +3,12 @@ import { PrismaClient } from '@prisma/client';
 import { ConfigService } from '@nestjs/config';
 import { JwtService } from '@nestjs/jwt';
 import { ApiTags } from '@nestjs/swagger';
+import { PrismaService } from 'src/prisma/prisma.service';
 
 @ApiTags("User")
 @Injectable()
 export class UserService {
-  constructor(private jwtService: JwtService, private config: ConfigService) {}
-
-  prisma = new PrismaClient();
+  constructor(private readonly prismaService: PrismaService) {}
 
   async createUser(user: {
     ten: string;
@@ -21,10 +20,10 @@ export class UserService {
     role: string;
   }): Promise<any> {
     const { email } = user;
-    const userRes = await this.prisma.users.findFirst({ where: { email } });
+    const userRes = await this.prismaService.users.findFirst({ where: { email } });
 
     if (userRes === null) {
-      const res = await this.prisma.users.create({ data: user });
+      const res = await this.prismaService.users.create({ data: user });
       return {
         statusCode: 200,
         message: 'Tạo người dùng thành công',
@@ -40,7 +39,7 @@ export class UserService {
   }
 
   async users(): Promise<any> {
-    const users = await this.prisma.users.findMany();
+    const users = await this.prismaService.users.findMany();
 
     if (users.length > 0) {
       return {
@@ -55,7 +54,7 @@ export class UserService {
   }
 
   async userByID(id: string): Promise<any> {
-    const res = await this.prisma.users.findMany({
+    const res = await this.prismaService.users.findMany({
       where: {
         id: +id,
       },
@@ -74,7 +73,7 @@ export class UserService {
   }
 
   async userByName(name: string): Promise<any> {
-    const users = await this.prisma.users.findMany({
+    const users = await this.prismaService.users.findMany({
       where: {
         name: {
           contains: name,
@@ -106,7 +105,7 @@ export class UserService {
     },
     id: number,
   ): Promise<any> {
-    const checkId = await this.prisma.users.findFirst({
+    const checkId = await this.prismaService.users.findFirst({
       where: { id: +id },
     });
     if (checkId == null) {
@@ -115,7 +114,7 @@ export class UserService {
         content: 'Không tìm thấy id người dùng',
       };
     } else {
-      const res = await this.prisma.users.update({
+      const res = await this.prismaService.users.update({
         data,
         where: {
           id: +id,
@@ -136,7 +135,7 @@ export class UserService {
   }
 
   async deleteUser(id: string): Promise<any> {
-    const checkId = await this.prisma.users.findFirst({
+    const checkId = await this.prismaService.users.findFirst({
       where: { id: +id },
     });
     if (checkId === null) {
@@ -145,7 +144,7 @@ export class UserService {
         content: 'Không tìm thấy id người dùng',
       };
     } else {
-      const res = await this.prisma.users.delete({
+      const res = await this.prismaService.users.delete({
         where: { id: +id },
       });
       if (res) {
@@ -163,7 +162,7 @@ export class UserService {
   }
 
   async postAvatar(userId: string, path: string) {
-    const user = await this.prisma.users.findFirst({
+    const user = await this.prismaService.users.findFirst({
       where: { id: +userId },
     });
 
@@ -173,7 +172,7 @@ export class UserService {
         message: 'Phòng không tồn tại',
       };
     } else {
-      const user = await this.prisma.users.update({
+      const user = await this.prismaService.users.update({
         data: {
           // hinh_anh: path,
         },

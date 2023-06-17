@@ -7,17 +7,7 @@ datasource db {
   url      = env("DATABASE_URL")
 }
 
-model locations {
-  id        Int       @id @default(autoincrement())
-  name      String?   @db.VarChar(255)
-  describe  String?   @db.VarChar(225)
-  country   String?   @db.VarChar(255)
-  image     String?   @db.VarChar(255)
-  createdAt DateTime? @default(now()) @db.Timestamp(0)
-  updatedAt DateTime? @default(now()) @db.DateTime(0)
-}
-
-model bookings {
+model Bookings {
   id        Int       @id @default(autoincrement())
   roomName  String?   @db.VarChar(255)
   checkIn   DateTime? @db.DateTime(0)
@@ -27,14 +17,24 @@ model bookings {
   roomId    Int?
   createdAt DateTime? @default(now()) @db.Timestamp(0)
   updatedAt DateTime? @default(now()) @db.DateTime(0)
-  users     users?    @relation(fields: [userId], references: [id], onDelete: NoAction, onUpdate: NoAction, map: "bookings_ibfk_1")
-  rooms     rooms?    @relation(fields: [roomId], references: [id], onDelete: NoAction, onUpdate: NoAction, map: "bookings_ibfk_2")
+  Users     Users?    @relation(fields: [userId], references: [id], onDelete: NoAction, onUpdate: NoAction, map: "Bookings_ibfk_1")
+  Rooms     Rooms?    @relation(fields: [roomId], references: [id], onDelete: NoAction, onUpdate: NoAction, map: "Bookings_ibfk_2")
 
   @@index([roomId], map: "roomId")
   @@index([userId], map: "userId")
 }
 
-model reviews {
+model Locations {
+  id        Int       @id @default(autoincrement())
+  name      String?   @db.VarChar(255)
+  describe  String?   @db.VarChar(225)
+  country   String?   @db.VarChar(255)
+  image     String?   @db.VarChar(255)
+  createdAt DateTime? @default(now()) @db.Timestamp(0)
+  updatedAt DateTime? @default(now()) @db.DateTime(0)
+}
+
+model Reviews {
   id        Int       @id @default(autoincrement())
   content   String?   @db.VarChar(255)
   star      String?   @db.VarChar(255)
@@ -42,14 +42,14 @@ model reviews {
   roomId    Int?
   createdAt DateTime? @default(now()) @db.Timestamp(0)
   updatedAt DateTime? @default(now()) @db.DateTime(0)
-  users     users?    @relation(fields: [userId], references: [id], onDelete: NoAction, onUpdate: NoAction, map: "reviews_ibfk_1")
-  rooms     rooms?    @relation(fields: [roomId], references: [id], onDelete: NoAction, onUpdate: NoAction, map: "reviews_ibfk_2")
+  Users     Users?    @relation(fields: [userId], references: [id], onDelete: NoAction, onUpdate: NoAction, map: "Reviews_ibfk_1")
+  Rooms     Rooms?    @relation(fields: [roomId], references: [id], onDelete: NoAction, onUpdate: NoAction, map: "Reviews_ibfk_2")
 
   @@index([userId], map: "nguoi_dung_id")
   @@index([roomId], map: "phong_id")
 }
 
-model rooms {
+model Rooms {
   id        Int        @id @default(autoincrement())
   name      String?    @db.VarChar(255)
   guest     Int?
@@ -69,11 +69,11 @@ model rooms {
   image     String?    @db.VarChar(255)
   createdAt DateTime?  @default(now()) @db.Timestamp(0)
   updatedAt DateTime?  @default(now()) @db.DateTime(0)
-  bookings  bookings[]
-  reviews   reviews[]
+  Bookings  Bookings[]
+  Reviews   Reviews[]
 }
 
-model users {
+model Users {
   id          Int        @id @default(autoincrement())
   name        String?    @db.VarChar(255)
   email       String?    @db.VarChar(255)
@@ -84,6 +84,6 @@ model users {
   role        String?    @db.VarChar(255)
   createdAt   DateTime?  @default(now()) @db.Timestamp(0)
   updatedAt   DateTime?  @default(now()) @db.DateTime(0)
-  bookings    bookings[]
-  reviews     reviews[]
+  Bookings    Bookings[]
+  Reviews     Reviews[]
 }

@@ -3,11 +3,12 @@ import { CreateLocationDto } from './dto/create-location.dto';
 import { UpdateLocationDto } from './dto/update-location.dto';
 import { PrismaClient } from '@prisma/client';
 import { ApiTags } from '@nestjs/swagger';
+import { PrismaService } from 'src/prisma/prisma.service';
 
 @ApiTags("Location")
 @Injectable()
 export class LocationService {
-  prisma = new PrismaClient();
+  constructor(private readonly prismaService: PrismaService) {}
 
   async createLocation(data: {
     ten_vi_tri: string;
@@ -15,7 +16,7 @@ export class LocationService {
     quoc_gia: string;
     hinh_anh: string;
   }): Promise<any> {
-    const location = await this.prisma.locations.create({
+    const location = await this.prismaService.locations.create({
       data,
     });
     if (location) {
@@ -32,7 +33,7 @@ export class LocationService {
   }
 
   async locations() {
-    const locations = await this.prisma.locations.findMany();
+    const locations = await this.prismaService.locations.findMany();
     if (locations.length > 0) {
       return locations
     } else
@@ -43,7 +44,7 @@ export class LocationService {
   }
 
   async getLocationById(id: string): Promise<any> {
-    const location = await this.prisma.locations.findMany({
+    const location = await this.prismaService.locations.findMany({
       where: {
         id: +id,
       },
@@ -70,7 +71,7 @@ export class LocationService {
     },
     id: number,
   ): Promise<any> {
-    const checkId = await this.prisma.locations.findFirst({
+    const checkId = await this.prismaService.locations.findFirst({
       where: { id: +id },
     });
     if (checkId == null) {
@@ -79,18 +80,14 @@ export class LocationService {
         content: 'Không tìm thấy id vị trí',
       };
     } else {
-      const res = await this.prisma.locations.update({
+      const location = await this.prismaService.locations.update({
         data,
         where: {
           id: +id,
         },
       });
-      if (res) {
-        return {
-          statusCode: 200,
-          content: res,
-
-        };
+      if (location) {
+        return location
       } else {
         return {
           statusCode: 404,
@@ -102,7 +99,7 @@ export class LocationService {
   }
 
   async deleteLocation(id: string): Promise<any> {
-    const location = await this.prisma.locations.findFirst({
+    const location = await this.prismaService.locations.findFirst({
       where: { id: +id },
     });
 
@@ -112,7 +109,7 @@ export class LocationService {
         content: 'Không tìm thấy vị trí',
       };
     } else {
-      const res = await this.prisma.locations.delete({
+      const res = await this.prismaService.locations.delete({
         where: { id: +id },
       });
 
@@ -131,14 +128,14 @@ export class LocationService {
   }
 
   async postImage(id: string, filename: string) {
-    const viTri = await this.prisma.locations.findFirst({
+    const viTri = await this.prismaService.locations.findFirst({
       where: {
         id: +id,
       },
     });
 
     if (viTri !== null) {
-      const res = await this.prisma.locations.update({
+      const res = await this.prismaService.locations.update({
         data: {
           id: +id,
           image: filename,

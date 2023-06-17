@@ -1,5 +1,5 @@
 import { Controller, Get, Post, Body, Patch, Param, Delete, HttpException } from '@nestjs/common';
-import { users } from '@prisma/client'
+import { Users } from '@prisma/client'
 import { ApiBody, ApiTags } from '@nestjs/swagger';
 import { AuthService } from './auth.service';
 import { LogInDto, LogInUserDto, SignUpDto, SignUpUserDto } from './dto/auth.dto';
@@ -11,7 +11,7 @@ export class AuthController {
 
   @ApiBody({ type: LogInUserDto })
   @Post('/login')
-  logInUser(@Body() body: LogInDto): Promise<users> {
+  logInUser(@Body() body: LogInDto): Promise<Users> {
     try {
       const { email, password } = body;
 
@@ -25,7 +25,7 @@ export class AuthController {
   @Post('/signup')
   async signUpUser(
     @Body() body: SignUpDto,
-  ): Promise<users> {
+  ): Promise<Users> {
     try {
       const { name, email, password } = body;
 

@@ -20,7 +20,6 @@ import {
 } from '@nestjs/common';
 import { UserService } from './user.service';
 import { ConfigService } from '@nestjs/config';
-import { PrismaClient } from '@prisma/client';
 import { AuthGuard } from '@nestjs/passport';
 import { FileInterceptor } from '@nestjs/platform-express';
 import { diskStorage } from 'multer';
@@ -73,10 +72,8 @@ class User {
 @ApiTags('User')
 @Controller('user')
 export class UserController {
-  prisma = new PrismaClient();
   constructor(
-    private userService: UserService,
-    private config: ConfigService,
+    private userService: UserService
   ) {}
 
   @ApiBody({

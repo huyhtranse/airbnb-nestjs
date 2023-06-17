@@ -4,7 +4,7 @@ import { UpdateBookingDto } from './dto/update-booking.dto';
 import { PrismaClient } from '@prisma/client';
 import { ApiTags } from '@nestjs/swagger';
 
-@ApiTags("Booking")
+@ApiTags('Booking')
 @Injectable()
 export class BookingService {
   prisma = new PrismaClient();
@@ -34,12 +34,9 @@ export class BookingService {
   }
 
   async bookings(): Promise<any> {
-    const res = await this.prisma.bookings.findMany();
-    if (res.length > 0) {
-      return {
-        statusCode: 200,
-        content: res,
-      };
+    const bookings = await this.prisma.bookings.findMany();
+    if (bookings.length > 0) {
+      return bookings;
     } else
       return {
         statusCode: 404,
@@ -113,13 +110,11 @@ export class BookingService {
         return {
           statusCode: 200,
           content: res,
-
         };
       } else {
         return {
           statusCode: 404,
           content: 'Cập nhật đặt phòng thất bại',
-
         };
       }
     }
@@ -142,13 +137,11 @@ export class BookingService {
         return {
           statusCode: 200,
           content: 'Xoá đặt phòng thành công',
-
         };
       } else {
         return {
           statusCode: 404,
           content: 'Xoá đặt phòng thất bại',
-
         };
       }
     }

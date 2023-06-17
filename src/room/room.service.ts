@@ -1,11 +1,11 @@
 import { HttpStatus, Injectable } from '@nestjs/common';
 import { ApiTags } from '@nestjs/swagger';
-import { PrismaService } from 'src/prisma.service';
+import { PrismaService } from 'src/prisma/prisma.service';
 
 @ApiTags("Room")
 @Injectable()
 export class RoomService {
-  constructor(private prisma: PrismaService) {}
+  constructor(private readonly prismaService: PrismaService) {}
 
   async createRoom(data: {
     ten_phong: string;
@@ -26,13 +26,13 @@ export class RoomService {
     hinh_anh: string;
     vi_tri_id: number;
   }): Promise<any> {
-    const viTri = await this.prisma.locations.findFirst({
+    const viTri = await this.prismaService.locations.findFirst({
       where: {
         id: data.vi_tri_id,
       },
     });
     if (viTri !== null) {
-      const room = await this.prisma.rooms.create({
+      const room = await this.prismaService.rooms.create({
         data,
       });
       if (room) {
@@ -55,13 +55,10 @@ export class RoomService {
   }
 
   async rooms(): Promise<any> {
-    const rooms = await this.prisma.rooms.findMany();
+    const rooms = await this.prismaService.rooms.findMany();
 
     if (rooms.length > 0) {
-      return {
-        statusCode: HttpStatus.OK,
-        payload: rooms,
-      };
+      return rooms
     } else {
       return {
         statusCode: HttpStatus.NO_CONTENT,
@@ -71,7 +68,7 @@ export class RoomService {
   }
 
   async roomById(id: number) {
-    const room = await this.prisma.rooms.findMany({
+    const room = await this.prismaService.rooms.findMany({
       where: { id: +id },
     });
     if (room.length > 0) {
@@ -88,15 +85,12 @@ export class RoomService {
   }
 
   async roomByLocation(locationId: number): Promise<any> {
-    const room = await this.prisma.rooms.findMany({
+    const room = await this.prismaService.rooms.findMany({
       where: { id: +locationId },
     });
 
     if (room !== null) {
-      return {
-        statusCode: 200,
-        payload: room,
-      };
+      return room
     } else {
       return {
         statusCode: 204,
@@ -127,7 +121,7 @@ export class RoomService {
       vi_tri_id: number;
     },
   ): Promise<any> {
-    const room = await this.prisma.rooms.findFirst({
+    const room = await this.prismaService.rooms.findFirst({
       where: { id: +id },
     });
 
@@ -137,7 +131,7 @@ export class RoomService {
         content: 'Room Not Found',
       };
     } else {
-      const room = await this.prisma.rooms.update({
+      const room = await this.prismaService.rooms.update({
         data,
         where: {
           id: +id,
@@ -158,7 +152,7 @@ export class RoomService {
   }
 
   async remove(id: number) {
-    const room = await this.prisma.rooms.findFirst({
+    const room = await this.prismaService.rooms.findFirst({
       where: { id: +id },
     });
 
@@ -168,8 +162,8 @@ export class RoomService {
         content: 'Room Not Found',
       };
     } else {
-      const res = await this.prisma.rooms.delete({
-        where: { id: +id },
+      const res = await this.prismaService.rooms.delete({
+        where: { id: +id }
       });
       
       if (res) {
@@ -187,7 +181,7 @@ export class RoomService {
   }
 
   async updateImage(id: string, path: string) {
-    const room = await this.prisma.rooms.findFirst({
+    const room = await this.prismaService.rooms.findFirst({
       where: {
         id: +id,
       },
@@ -199,7 +193,7 @@ export class RoomService {
         message: 'Phòng không tồn tại',
       };
     } else {
-      const room = await this.prisma.rooms.update({
+      const room = await this.prismaService.rooms.update({
         data: {
           image: path,
         },
