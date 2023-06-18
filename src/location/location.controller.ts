@@ -78,10 +78,7 @@ export class LocationController {
     try {
       return this.locationService.createLocation(body);
     } catch (error) {
-      throw new HttpException(
-        INTERNAL_SERVER_ERROR,
-        HttpStatus.INTERNAL_SERVER_ERROR,
-      );
+      throw new InternalServerErrorException()
     }
   }
 
@@ -90,10 +87,7 @@ export class LocationController {
     try {
       return await this.locationService.locations();
     } catch (error) {
-      throw new HttpException(
-        INTERNAL_SERVER_ERROR,
-        HttpStatus.INTERNAL_SERVER_ERROR,
-      );
+      throw  new InternalServerErrorException()
     }
   }
 
@@ -102,10 +96,7 @@ export class LocationController {
     try {
       return await this.locationService.getLocationById(id);
     } catch (error) {
-      throw new HttpException(
-        INTERNAL_SERVER_ERROR,
-        HttpStatus.INTERNAL_SERVER_ERROR,
-      );
+      throw new InternalServerErrorException()
     }
   }
 
@@ -137,10 +128,7 @@ export class LocationController {
         id,
       );
     } catch (error) {
-      throw new HttpException(
-        INTERNAL_SERVER_ERROR,
-        HttpStatus.INTERNAL_SERVER_ERROR,
-      );
+      throw new InternalServerErrorException();
     }
   }
 
@@ -151,10 +139,7 @@ export class LocationController {
     try {
       return await this.locationService.deleteLocation(id);
     } catch (error) {
-      throw new HttpException(
-        INTERNAL_SERVER_ERROR,
-        HttpStatus.INTERNAL_SERVER_ERROR,
-      );
+      throw new InternalServerErrorException()
     }
   }
 
@@ -182,10 +167,7 @@ export class LocationController {
 
       return this.locationService.postImage(id, filename);
     } catch (error) {
-      throw new HttpException(
-        InternalServerErrorException,
-        HttpStatus.INTERNAL_SERVER_ERROR,
-      );
+      throw new InternalServerErrorException();
     }
   }
 }

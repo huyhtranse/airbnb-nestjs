@@ -10,6 +10,7 @@ import {
   Put,
   UseGuards,
   Headers,
+  InternalServerErrorException,
 } from '@nestjs/common';
 import { BookingService } from './booking.service';
 import { ApiBearerAuth, ApiBody, ApiProperty, ApiTags } from '@nestjs/swagger';
@@ -77,7 +78,7 @@ export class BookingController {
     try {
       return await this.bookingService.createBooking(body);
     } catch (error) {
-      throw new HttpException('Lỗi BE', 500);
+      throw new InternalServerErrorException();
     }
   }
 
@@ -86,7 +87,7 @@ export class BookingController {
     try {
       return await this.bookingService.bookings();
     } catch (error) {
-      throw new HttpException('Lỗi BE', 500);
+      throw new InternalServerErrorException();
     }
   }
   @ApiBearerAuth()
@@ -96,7 +97,7 @@ export class BookingController {
     try {
       return await this.bookingService.bookingById(id);
     } catch (error) {
-      throw new HttpException('Lỗi BE', 500);
+      throw new InternalServerErrorException();
     }
   }
 
@@ -105,7 +106,7 @@ export class BookingController {
     try {
       return await this.bookingService.bookingByUser(id);
     } catch (error) {
-      throw new HttpException('Lỗi BE', 500);
+      throw new InternalServerErrorException();
     }
   }
 
@@ -149,7 +150,7 @@ export class BookingController {
         id,
       );
     } catch (error) {
-      throw new HttpException('Lỗi BE', 500);
+      throw new InternalServerErrorException();
     }
   }
 
@@ -160,7 +161,7 @@ export class BookingController {
     try {
       return await this.bookingService.deleteBooking(id);
     } catch (error) {
-      throw new HttpException('Lỗi BE', 500);
+      throw new InternalServerErrorException();
     }
   }
 }

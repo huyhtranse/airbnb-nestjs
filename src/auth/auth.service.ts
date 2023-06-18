@@ -10,12 +10,11 @@ export class AuthService {
 
   prisma = new PrismaClient();
 
-  async logInUser(email: string, mat_khau: string): Promise<any> {
+  async logInUser(email: string, password: string): Promise<any> {
     const user: any = await this.prisma.users.findFirst({ where: { email } });
 
     if (user !== null) {
-      
-      if (user?.mat_khau === mat_khau) {
+      if (user?.password === password) {
         const token = this.jwtService.sign(
           { data: user },
           { secret: this.config.get('SECRET_KEY'), expiresIn: '7d' },
@@ -24,19 +23,16 @@ export class AuthService {
         return {
           statusCode: 200,
           payload: { user },
-          message: "Đăng nhập thành công",
-          token
+          message: 'Đăng nhập thành công',
+          token,
         };
-        
       } else {
         return {
           statusCode: 400,
           message: 'Mật khẩu không đúng!',
         };
       }
-
     } else {
-
       return {
         statusCode: 400,
         content: 'Tài khoản không tồn tại!',
@@ -54,19 +50,18 @@ export class AuthService {
       );
       const newUser = { ten, email, mat_khau };
 
-      await this.prisma.users.create({ data: newUser })
+      await this.prisma.users.create({ data: newUser });
 
       return {
         statusCode: 200,
-        message: "Đang ký thành công!",
-        token
-      }
+        message: 'Đang ký thành công!',
+        token,
+      };
     } else {
       return {
         statusCode: 400,
-        message: "Email đã tồn tại!"
-      }
+        message: 'Email đã tồn tại!',
+      };
     }
   }
 }
-

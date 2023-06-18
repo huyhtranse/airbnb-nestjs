@@ -2,102 +2,38 @@ import {
   Body,
   Controller,
   Delete,
-  ForbiddenException,
   Get,
   Headers,
-  HttpCode,
   HttpException,
-  HttpStatus,
   InternalServerErrorException,
   Param,
   Post,
   Put,
-  Query,
-  Req,
   UploadedFile,
   UseGuards,
   UseInterceptors,
 } from '@nestjs/common';
 import { UserService } from './user.service';
-import { ConfigService } from '@nestjs/config';
 import { AuthGuard } from '@nestjs/passport';
 import { FileInterceptor } from '@nestjs/platform-express';
 import { diskStorage } from 'multer';
-import {
-  ApiBearerAuth,
-  ApiBody,
-  ApiConsumes,
-  ApiProperty,
-  ApiTags,
-} from '@nestjs/swagger';
-import { Request } from 'express';
+import { ApiBearerAuth, ApiBody, ApiConsumes, ApiTags } from '@nestjs/swagger';
+import { CreateUserDto } from './dto/create-user.dto';
+import { User } from './interfaces/user.interface';
 
-class User {
-  @ApiProperty({
-    description: 'email',
-    type: String,
-  })
-  email: string;
-  @ApiProperty({
-    description: 'pass_word',
-    type: String,
-  })
-  pass_word: string;
-  @ApiProperty({
-    description: 'name',
-    type: String,
-  })
-  name: string;
-  @ApiProperty({
-    description: 'phone',
-    type: Number,
-  })
-  phone: number;
-  @ApiProperty({
-    description: 'birth_day',
-    type: String,
-  })
-  birth_day: string;
-  @ApiProperty({
-    description: 'gender',
-    type: String,
-  })
-  gender: string;
-  @ApiProperty({
-    description: 'role',
-    type: String,
-  })
-  role: string;
-}
 @ApiTags('User')
 @Controller('user')
 export class UserController {
-  constructor(
-    private userService: UserService
-  ) {}
+  constructor(private userService: UserService) {}
 
-  @ApiBody({
-    type: User,
-  })
   @ApiBearerAuth()
   @UseGuards(AuthGuard('jwt'))
   @Post('/create')
-  async createUser(
-    @Body()
-    body: {
-      ten: string;
-      email: string;
-      mat_khau: string;
-      dien_thoai: string;
-      ngay_sinh: string;
-      gioi_tinh: string;
-      role: string;
-    }
-  ) {
+  async create(@Body() createUserDto: CreateUserDto): Promise<User | HttpException> {
     try {
-      return await this.userService.createUser(body);
+      return await this.userService.create(createUserDto);
     } catch (error) {
-      throw new HttpException('Lỗi BE', 500);
+      throw new InternalServerErrorException();
     }
   }
 
@@ -108,27 +44,23 @@ export class UserController {
     try {
       return await this.userService.users();
     } catch (error) {
-      throw new HttpException('Lỗi BE', 500);
+      throw new InternalServerErrorException();
     }
   }
 
   @ApiBearerAuth()
   @UseGuards(AuthGuard('jwt'))
-  @Get('/id/:id')
-  async userByID(
-    @Param('id') id: string
-  ): Promise<any> {
+  @Get('/:id')
+  async userByID(@Param('id') id: string): Promise<any> {
     try {
       return await this.userService.userByID(id);
     } catch (error) {
-      throw new HttpException('Lỗi BE', 500);
+      throw new InternalServerErrorException();
     }
   }
 
   @Get('/name/:name')
-  async userByName(
-    @Param('name') name: string
-  ): Promise<any> {
+  async userByName(@Param('name') name: string): Promise<any> {
     try {
       return await this.userService.userByName(name);
     } catch (error) {
@@ -136,9 +68,6 @@ export class UserController {
     }
   }
 
-  @ApiBody({
-    type: User,
-  })
   @ApiBearerAuth()
   @UseGuards(AuthGuard('jwt'))
   @Put('/update/:id')
@@ -166,9 +95,7 @@ export class UserController {
   @ApiBearerAuth()
   @UseGuards(AuthGuard('jwt'))
   @Delete('/delete/:id')
-  async deleteUser(
-    @Param('id') id: string
-  ): Promise<any> {
+  async deleteUser(@Param('id') id: string): Promise<any> {
     try {
       return await this.userService.deleteUser(id);
     } catch (error) {
@@ -203,4 +130,3 @@ export class UserController {
     }
   }
 }
-

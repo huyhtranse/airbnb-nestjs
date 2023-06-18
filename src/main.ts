@@ -11,6 +11,7 @@ async function bootstrap() {
     .setTitle('NestJS Airbnb Project')
     .setDescription('This Airbnb API Project')
     .setVersion('1.0')
+    .addBearerAuth()
     .addTag('Auth')
     .addTag('User')
     .addTag('Room')

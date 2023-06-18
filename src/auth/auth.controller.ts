@@ -1,4 +1,4 @@
-import { Controller, Get, Post, Body, Patch, Param, Delete, HttpException } from '@nestjs/common';
+import { Controller, Get, Post, Body, Patch, Param, Delete, HttpException, InternalServerErrorException } from '@nestjs/common';
 import { Users } from '@prisma/client'
 import { ApiBody, ApiTags } from '@nestjs/swagger';
 import { AuthService } from './auth.service';
@@ -17,7 +17,7 @@ export class AuthController {
 
       return this.authService.logInUser(email, password);
     } catch (error) {
-      throw new HttpException('Internal Server Error', 500);
+      throw new InternalServerErrorException();
     }
   }
 
@@ -31,7 +31,7 @@ export class AuthController {
 
       return await this.authService.signUpUser(name, email, password);
     } catch (error) {
-      throw new HttpException('Internal Server Error', 500);
+      throw new InternalServerErrorException();
     }
   }
 }

@@ -4,31 +4,22 @@ import { ConfigService } from '@nestjs/config';
 import { JwtService } from '@nestjs/jwt';
 import { ApiTags } from '@nestjs/swagger';
 import { PrismaService } from 'src/prisma/prisma.service';
+import { User } from 'src/user/interfaces/user.interface';
 
-@ApiTags("User")
+@ApiTags('User')
 @Injectable()
 export class UserService {
   constructor(private readonly prismaService: PrismaService) {}
 
-  async createUser(user: {
-    ten: string;
-    email: string;
-    mat_khau: string;
-    dien_thoai: string;
-    ngay_sinh: string;
-    gioi_tinh: string;
-    role: string;
-  }): Promise<any> {
+  async create(user: User): Promise<User | any> {
     const { email } = user;
-    const userRes = await this.prismaService.users.findFirst({ where: { email } });
+    const userRes = await this.prismaService.users.findFirst({
+      where: { email },
+    });
 
     if (userRes === null) {
-      const res = await this.prismaService.users.create({ data: user });
-      return {
-        statusCode: 200,
-        message: 'Tạo người dùng thành công',
-        payload: res,
-      };
+      const userCreate = await this.prismaService.users.create({ data: user });
+      return userCreate;
     } else {
       return {
         statusCode: 400,
@@ -189,4 +180,3 @@ export class UserService {
     }
   }
 }
-

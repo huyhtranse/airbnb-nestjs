@@ -13,6 +13,7 @@ import {
   UploadedFile,
   Headers,
   HttpStatus,
+  InternalServerErrorException,
 } from '@nestjs/common';
 import { RoomService } from './room.service';
 import {
@@ -172,7 +173,7 @@ export class RoomController {
     try {
       return await this.roomService.rooms();
     } catch (error) {
-      throw new HttpException('Lỗi BE', 500);
+      throw new InternalServerErrorException();
     }
   }
 
@@ -190,7 +191,7 @@ export class RoomController {
     try {
       return this.roomService.roomByLocation(+id);
     } catch (error) {
-      throw new HttpException('Lỗi BE', 500);
+      throw new InternalServerErrorException();
     }
   }
 
@@ -227,7 +228,7 @@ export class RoomController {
     try {
       return await this.roomService.updateRoomInfo(+id, body);
     } catch (error) {
-      throw new HttpException('Lỗi BE', 500);
+      throw new InternalServerErrorException();
     }
   }
 
@@ -238,7 +239,7 @@ export class RoomController {
     try {
       return await this.roomService.remove(+id);
     } catch (error) {
-      throw new HttpException('Lỗi BE', 500);
+      throw new InternalServerErrorException();
     }
   }
 
@@ -266,10 +267,7 @@ export class RoomController {
 
       return this.roomService.updateImage(id, filename);
     } catch (error) {
-      throw new HttpException(
-        INTERNAL_SERVER_ERROR,
-        HttpStatus.INTERNAL_SERVER_ERROR,
-      );
+      throw new InternalServerErrorException()
     }
   }
 }

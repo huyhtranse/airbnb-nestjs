@@ -11,6 +11,7 @@ import {
   Req,
   Headers,
   Put,
+  InternalServerErrorException,
 } from '@nestjs/common';
 import { ApiBearerAuth, ApiBody, ApiProperty, ApiTags } from '@nestjs/swagger';
 import { AuthGuard } from '@nestjs/passport';
@@ -78,7 +79,7 @@ export class ReviewController {
     try {
       return await this.reviewService.createReview(body);
     } catch (error) {
-      throw new HttpException('Lỗi BE', 500);
+      throw new InternalServerErrorException();
     }
   }
 
@@ -87,7 +88,7 @@ export class ReviewController {
     try {
       return await this.reviewService.reviews();
     } catch (error) {
-      throw new HttpException('Lỗi BE', 500);
+      throw new InternalServerErrorException();
     }
   }
 
@@ -98,7 +99,7 @@ export class ReviewController {
     try {
       return await this.reviewService.reviewById(id);
     } catch (error) {
-      throw new HttpException('Lỗi BE', 500);
+      throw new InternalServerErrorException();
     }
   }
 
@@ -108,7 +109,7 @@ export class ReviewController {
     try {
       return await this.reviewService.reviewByRoomId(id);
     } catch (error) {
-      throw new HttpException('Lỗi BE', 500);
+      throw new InternalServerErrorException();
     }
   }
 
@@ -133,7 +134,7 @@ export class ReviewController {
     try {
       return await this.reviewService.updateReview(body, id);
     } catch (error) {
-      throw new HttpException('Lỗi BE', 500);
+      throw new InternalServerErrorException();
     }
   }
 
@@ -144,7 +145,7 @@ export class ReviewController {
     try {
       return await this.reviewService.deleteReivew(id);
     } catch (error) {
-      throw new HttpException('Lỗi BE', 500);
+      throw new InternalServerErrorException();
     }
   }
 }
