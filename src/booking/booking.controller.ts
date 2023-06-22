@@ -3,87 +3,38 @@ import {
   Get,
   Post,
   Body,
-  Patch,
   Param,
   Delete,
-  HttpException,
   Put,
   UseGuards,
-  Headers,
   InternalServerErrorException,
 } from '@nestjs/common';
 import { BookingService } from './booking.service';
-import { ApiBearerAuth, ApiBody, ApiProperty, ApiTags } from '@nestjs/swagger';
+import { ApiBearerAuth, ApiTags } from '@nestjs/swagger';
 import { AuthGuard } from '@nestjs/passport';
-
-class Booking {
-  @ApiProperty({
-    description: 'ma_phong',
-    type: Number,
-  })
-  ma_phong: string;
-
-  @ApiProperty({
-    description: 'ngay_den',
-    type: String,
-  })
-  ngay_den: string;
-
-  @ApiProperty({
-    description: 'ngay_di',
-    type: String,
-  })
-  ngay_di: string;
-
-  @ApiProperty({
-    description: 'so_luong_khach',
-    type: Number,
-  })
-  so_luong_khach: number;
-
-  @ApiProperty({
-    description: 'nguoi_dung_id',
-    type: Number,
-  })
-  nguoi_dung_id: number;
-
-  @ApiProperty({
-    description: 'phong_id',
-    type: Number,
-  })
-  phong_id: number;
-}
+import { CreateBookingDto } from './dto/create-booking.dto';
 
 @ApiTags('Booking')
 @Controller('booking')
 export class BookingController {
   constructor(private readonly bookingService: BookingService) {}
-  @ApiBody({
-    type: Booking,
-  })
+
   @ApiBearerAuth()
   @UseGuards(AuthGuard('jwt'))
   @Post('/create')
   async createBooking(
     @Body()
-    body: {
-      roomName: string;
-      checkIn: string;
-      checkOut: string;
-      guest: number;
-      userId: number;
-      roomId: number;
-    },
-  ): Promise<any> {
+    createBookingDto: CreateBookingDto,
+  ) {
     try {
-      return await this.bookingService.createBooking(body);
+      return await this.bookingService.createBooking(createBookingDto);
     } catch (error) {
       throw new InternalServerErrorException();
     }
   }
 
   @Get()
-  async bookings(): Promise<any> {
+  async bookings() {
     try {
       return await this.bookingService.bookings();
     } catch (error) {
@@ -93,7 +44,7 @@ export class BookingController {
   @ApiBearerAuth()
   @UseGuards(AuthGuard('jwt'))
   @Get('/:id')
-  async getBookingWithId(@Param('id') id: string): Promise<any> {
+  async bookingById(@Param('id') id: string) {
     try {
       return await this.bookingService.bookingById(id);
     } catch (error) {
@@ -102,17 +53,14 @@ export class BookingController {
   }
 
   @Get('/user/:id')
-  async getBookingWithIdUser(@Param('id') id: string): Promise<any> {
+  async bookingByUserId(@Param('id') id: string) {
     try {
-      return await this.bookingService.bookingByUser(id);
+      return await this.bookingService.bookingByUserId(id);
     } catch (error) {
       throw new InternalServerErrorException();
     }
   }
 
-  @ApiBody({
-    type: Booking,
-  })
   @ApiBearerAuth()
   @UseGuards(AuthGuard('jwt'))
   @Put('/update/:id')
@@ -128,24 +76,17 @@ export class BookingController {
       userId: number;
       roomId: number;
     },
-  ): Promise<any> {
-    const {
-      roomName,
-      checkIn,
-      checkOut,
-      guest,
-      userId,
-      roomId,
-    } = body;
+  ) {
+    const { roomName, checkIn, checkOut, guest, userId, roomId } = body;
     try {
       return await this.bookingService.updateBooking(
         {
           roomName,
-      checkIn,
-      checkOut,
-      guest,
-      userId,
-      roomId,
+          checkIn,
+          checkOut,
+          guest,
+          userId,
+          roomId,
         },
         id,
       );
@@ -157,7 +98,7 @@ export class BookingController {
   @ApiBearerAuth()
   @UseGuards(AuthGuard('jwt'))
   @Delete('/delete/:id')
-  async deleteBooking(@Param('id') id: string): Promise<any> {
+  async deleteBooking(@Param('id') id: string) {
     try {
       return await this.bookingService.deleteBooking(id);
     } catch (error) {

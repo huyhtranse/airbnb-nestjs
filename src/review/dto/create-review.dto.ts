@@ -1,7 +1,15 @@
+import { ApiProperty } from '@nestjs/swagger';
+
 export class CreateReviewDto {
-  noiDung: string;
-  saoBinhLuan: string;
-  ngayBinhLuan: string;
-  nguoiDungId: number;
-  phongId: number;
+  @ApiProperty()
+  content: string;
+
+  @ApiProperty()
+  star: string;
+
+  @ApiProperty()
+  userId: number;
+
+  @ApiProperty()
+  roomId: number;
 }

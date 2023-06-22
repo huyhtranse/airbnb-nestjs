@@ -61,7 +61,7 @@ export class BookingService {
     }
   }
 
-  async bookingByUser(id: string): Promise<any> {
+  async bookingByUserId(id: string): Promise<any> {
     const res = await this.prisma.bookings.findMany({
       where: {
         userId: +id,

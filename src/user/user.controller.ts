@@ -84,18 +84,14 @@ export class UserController {
       gioi_tinh: string;
       role: string;
     },
-  ): Promise<any> {
-    try {
+  ) {
       return await this.userService.updateUser(body, id);
-    } catch (error) {
-      throw new HttpException('Lỗi BE', 500);
-    }
   }
 
   @ApiBearerAuth()
   @UseGuards(AuthGuard('jwt'))
   @Delete('/delete/:id')
-  async deleteUser(@Param('id') id: string): Promise<any> {
+  async deleteUser(@Param('id') id: string) {
     try {
       return await this.userService.deleteUser(id);
     } catch (error) {

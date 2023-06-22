@@ -121,7 +121,6 @@ export class ReviewController {
   @Put('/update-review/:id')
   async updateReview(
     @Param('id') id: number,
-    @Headers('authorization')
     @Body()
     body: {
       content: string;
