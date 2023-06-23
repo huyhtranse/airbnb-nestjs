@@ -1,7 +1,4 @@
 import { Injectable } from '@nestjs/common';
-import { PrismaClient } from '@prisma/client';
-import { ConfigService } from '@nestjs/config';
-import { JwtService } from '@nestjs/jwt';
 import { ApiTags } from '@nestjs/swagger';
 import { PrismaService } from 'src/prisma/prisma.service';
 import { User } from 'src/user/interfaces/user.interface';
@@ -29,7 +26,7 @@ export class UserService {
     }
   }
 
-  async users(): Promise<any> {
+  async users() {
     const users = await this.prismaService.users.findMany();
 
     if (users.length > 0) {
@@ -44,7 +41,7 @@ export class UserService {
       };
   }
 
-  async userByID(id: string): Promise<any> {
+  async userByID(id: string) {
     const res = await this.prismaService.users.findMany({
       where: {
         id: +id,
@@ -63,7 +60,7 @@ export class UserService {
     }
   }
 
-  async userByName(name: string): Promise<any> {
+  async userByName(name: string) {
     const users = await this.prismaService.users.findMany({
       where: {
         name: {
@@ -95,7 +92,7 @@ export class UserService {
       role: string;
     },
     id: number,
-  ): Promise<any> {
+  ) {
     const checkId = await this.prismaService.users.findFirst({
       where: { id: +id },
     });
@@ -125,7 +122,7 @@ export class UserService {
     }
   }
 
-  async deleteUser(id: string): Promise<any> {
+  async deleteUser(id: string) {
     const checkId = await this.prismaService.users.findFirst({
       where: { id: +id },
     });

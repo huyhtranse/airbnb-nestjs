@@ -83,12 +83,8 @@ export class LocationController {
   }
 
   @Get()
-  async getAllLocation(): Promise<any> {
-    try {
+  async locations(): Promise<any> {
       return await this.locationService.locations();
-    } catch (error) {
-      throw  new InternalServerErrorException()
-    }
   }
 
   @Get('/get-location/:id')

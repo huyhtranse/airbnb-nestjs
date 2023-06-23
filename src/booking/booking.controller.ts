@@ -35,11 +35,7 @@ export class BookingController {
 
   @Get()
   async bookings() {
-    try {
       return await this.bookingService.bookings();
-    } catch (error) {
-      throw new InternalServerErrorException();
-    }
   }
   @ApiBearerAuth()
   @UseGuards(AuthGuard('jwt'))

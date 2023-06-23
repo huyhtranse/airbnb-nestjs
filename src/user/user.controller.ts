@@ -3,7 +3,6 @@ import {
   Controller,
   Delete,
   Get,
-  Headers,
   HttpException,
   InternalServerErrorException,
   Param,
@@ -40,7 +39,7 @@ export class UserController {
   @ApiBearerAuth()
   @UseGuards(AuthGuard('jwt'))
   @Get()
-  async users(): Promise<any> {
+  async users() {
     try {
       return await this.userService.users();
     } catch (error) {
@@ -51,7 +50,7 @@ export class UserController {
   @ApiBearerAuth()
   @UseGuards(AuthGuard('jwt'))
   @Get('/:id')
-  async userByID(@Param('id') id: string): Promise<any> {
+  async userByID(@Param('id') id: string) {
     try {
       return await this.userService.userByID(id);
     } catch (error) {
@@ -60,7 +59,7 @@ export class UserController {
   }
 
   @Get('/name/:name')
-  async userByName(@Param('name') name: string): Promise<any> {
+  async userByName(@Param('name') name: string) {
     try {
       return await this.userService.userByName(name);
     } catch (error) {
@@ -73,7 +72,6 @@ export class UserController {
   @Put('/update/:id')
   async updateUser(
     @Param('id') id: number,
-    @Headers('authorization')
     @Body()
     body: {
       ten: string;

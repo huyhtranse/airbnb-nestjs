@@ -5,7 +5,7 @@ import { PrismaClient } from '@prisma/client';
 import { ApiTags } from '@nestjs/swagger';
 import { PrismaService } from 'src/prisma/prisma.service';
 
-@ApiTags("Location")
+@ApiTags('Location')
 @Injectable()
 export class LocationService {
   constructor(private readonly prismaService: PrismaService) {}
@@ -33,14 +33,7 @@ export class LocationService {
   }
 
   async locations() {
-    const locations = await this.prismaService.locations.findMany();
-    if (locations.length > 0) {
-      return locations
-    } else
-      return {
-        statusCode: 404,
-        content: 'Không tìm thấy vị trí',
-      };
+    return await this.prismaService.locations.findMany();
   }
 
   async getLocationById(id: string): Promise<any> {
@@ -87,12 +80,11 @@ export class LocationService {
         },
       });
       if (location) {
-        return location
+        return location;
       } else {
         return {
           statusCode: 404,
           content: 'Cập nhật vị trí thất bại',
-
         };
       }
     }
