@@ -32,6 +32,7 @@ model Locations {
   image     String?   @db.VarChar(255)
   createdAt DateTime? @default(now()) @db.Timestamp(0)
   updatedAt DateTime? @default(now()) @db.DateTime(0)
+  Rooms     Rooms[]
 }
 
 model Reviews {
@@ -45,32 +46,36 @@ model Reviews {
   Users     Users?    @relation(fields: [userId], references: [id], onDelete: NoAction, onUpdate: NoAction, map: "Reviews_ibfk_1")
   Rooms     Rooms?    @relation(fields: [roomId], references: [id], onDelete: NoAction, onUpdate: NoAction, map: "Reviews_ibfk_2")
 
-  @@index([userId], map: "nguoi_dung_id")
-  @@index([roomId], map: "phong_id")
+  @@index([roomId], map: "roomId")
+  @@index([userId], map: "userId")
 }
 
 model Rooms {
-  id        Int        @id @default(autoincrement())
-  name      String?    @db.VarChar(255)
-  guest     Int?
-  bedRoom   Int?
-  bed       Int?
-  bathRoom  Int?
-  describe  String?    @db.VarChar(255)
-  price     Int?
-  washer    Boolean?
-  iron      Boolean?
-  tv        Boolean?
-  airCon    Boolean?
-  wifi      Boolean?
-  kitchen   Boolean?
-  parking   Boolean?
-  pool      Boolean?
-  image     String?    @db.VarChar(255)
-  createdAt DateTime?  @default(now()) @db.Timestamp(0)
-  updatedAt DateTime?  @default(now()) @db.DateTime(0)
-  Bookings  Bookings[]
-  Reviews   Reviews[]
+  id         Int        @id @default(autoincrement())
+  name       String?    @db.VarChar(255)
+  guest      Int?
+  bedRoom    Int?
+  bed        Int?
+  bathRoom   Int?
+  describe   String?    @db.VarChar(255)
+  price      Int?
+  washer     Boolean?
+  iron       Boolean?
+  tv         Boolean?
+  airCon     Boolean?
+  wifi       Boolean?
+  kitchen    Boolean?
+  parking    Boolean?
+  pool       Boolean?
+  image      String?    @db.VarChar(255)
+  locationId Int?
+  createdAt  DateTime?  @default(now()) @db.Timestamp(0)
+  updatedAt  DateTime?  @default(now()) @db.DateTime(0)
+  Bookings   Bookings[]
+  Reviews    Reviews[]
+  Locations  Locations? @relation(fields: [locationId], references: [id], onDelete: NoAction, onUpdate: NoAction, map: "Rooms_ibfk_1")
+
+  @@index([locationId], map: "locationId")
 }
 
 model Users {

@@ -20,7 +20,7 @@ export class CreateRoomDto {
     describe: string;
      
     @ApiProperty()
-    price: string;
+    price: number;
 
     @ApiProperty()
     washer: boolean;
@@ -48,4 +48,7 @@ export class CreateRoomDto {
 
     @ApiProperty()
     image: string;
+
+    @ApiProperty()
+    locationId: number;
 }

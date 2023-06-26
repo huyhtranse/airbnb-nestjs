@@ -7,7 +7,6 @@ import {
   Delete,
   Put,
   UseGuards,
-  InternalServerErrorException,
 } from '@nestjs/common';
 import { BookingService } from './booking.service';
 import { ApiBearerAuth, ApiTags } from '@nestjs/swagger';
@@ -26,41 +25,29 @@ export class BookingController {
     @Body()
     createBookingDto: CreateBookingDto,
   ) {
-    try {
-      return await this.bookingService.createBooking(createBookingDto);
-    } catch (error) {
-      throw new InternalServerErrorException();
-    }
+    return await this.bookingService.createBooking(createBookingDto);
   }
 
   @Get()
   async bookings() {
-      return await this.bookingService.bookings();
+    return await this.bookingService.bookings();
   }
   @ApiBearerAuth()
   @UseGuards(AuthGuard('jwt'))
   @Get('/:id')
   async bookingById(@Param('id') id: string) {
-    try {
-      return await this.bookingService.bookingById(id);
-    } catch (error) {
-      throw new InternalServerErrorException();
-    }
+    return await this.bookingService.bookingById(id);
   }
 
   @Get('/user/:id')
   async bookingByUserId(@Param('id') id: string) {
-    try {
-      return await this.bookingService.bookingByUserId(id);
-    } catch (error) {
-      throw new InternalServerErrorException();
-    }
+    return await this.bookingService.bookingByUserId(id);
   }
 
   @ApiBearerAuth()
   @UseGuards(AuthGuard('jwt'))
   @Put('/update/:id')
-  async updateBooking(
+  async update(
     @Param('id') id: number,
 
     @Body()
@@ -74,31 +61,24 @@ export class BookingController {
     },
   ) {
     const { roomName, checkIn, checkOut, guest, userId, roomId } = body;
-    try {
-      return await this.bookingService.updateBooking(
-        {
-          roomName,
-          checkIn,
-          checkOut,
-          guest,
-          userId,
-          roomId,
-        },
-        id,
-      );
-    } catch (error) {
-      throw new InternalServerErrorException();
-    }
+
+    return await this.bookingService.updateBooking(
+      {
+        roomName,
+        checkIn,
+        checkOut,
+        guest,
+        userId,
+        roomId,
+      },
+      id,
+    );
   }
 
   @ApiBearerAuth()
   @UseGuards(AuthGuard('jwt'))
   @Delete('/delete/:id')
   async deleteBooking(@Param('id') id: string) {
-    try {
-      return await this.bookingService.deleteBooking(id);
-    } catch (error) {
-      throw new InternalServerErrorException();
-    }
+    return await this.bookingService.deleteBooking(id);
   }
 }

@@ -3,8 +3,6 @@ import {
   Controller,
   Delete,
   Get,
-  HttpException,
-  InternalServerErrorException,
   Param,
   Post,
   Put,
@@ -16,7 +14,14 @@ import { UserService } from './user.service';
 import { AuthGuard } from '@nestjs/passport';
 import { FileInterceptor } from '@nestjs/platform-express';
 import { diskStorage } from 'multer';
-import { ApiBearerAuth, ApiBody, ApiConsumes, ApiTags } from '@nestjs/swagger';
+import {
+  ApiBearerAuth,
+  ApiBody,
+  ApiConsumes,
+  ApiOperation,
+  ApiResponse,
+  ApiTags,
+} from '@nestjs/swagger';
 import { CreateUserDto } from './dto/create-user.dto';
 import { User } from './interfaces/user.interface';
 
@@ -28,43 +33,29 @@ export class UserController {
   @ApiBearerAuth()
   @UseGuards(AuthGuard('jwt'))
   @Post('/create')
-  async create(@Body() createUserDto: CreateUserDto): Promise<User | HttpException> {
-    try {
-      return await this.userService.create(createUserDto);
-    } catch (error) {
-      throw new InternalServerErrorException();
-    }
+  async create(@Body() createUserDto: CreateUserDto): Promise<User> {
+    return await this.userService.create(createUserDto);
   }
 
   @ApiBearerAuth()
   @UseGuards(AuthGuard('jwt'))
   @Get()
   async users() {
-    try {
-      return await this.userService.users();
-    } catch (error) {
-      throw new InternalServerErrorException();
-    }
+    return await this.userService.users();
   }
 
   @ApiBearerAuth()
   @UseGuards(AuthGuard('jwt'))
   @Get('/:id')
-  async userByID(@Param('id') id: string) {
-    try {
-      return await this.userService.userByID(id);
-    } catch (error) {
-      throw new InternalServerErrorException();
-    }
+  @ApiOperation({ summary: 'Get user by ID' })
+  @ApiResponse({ status: 200, description: 'Get success' })
+  async userByID(@Param('id') userId: string) {
+    return await this.userService.userByID(+userId);
   }
 
   @Get('/name/:name')
   async userByName(@Param('name') name: string) {
-    try {
-      return await this.userService.userByName(name);
-    } catch (error) {
-      throw new HttpException('Lỗi BE', 500);
-    }
+    return await this.userService.userByName(name);
   }
 
   @ApiBearerAuth()
@@ -83,18 +74,14 @@ export class UserController {
       role: string;
     },
   ) {
-      return await this.userService.updateUser(body, id);
+    return await this.userService.updateUser(body, id);
   }
 
   @ApiBearerAuth()
   @UseGuards(AuthGuard('jwt'))
   @Delete('/delete/:id')
   async deleteUser(@Param('id') id: string) {
-    try {
-      return await this.userService.deleteUser(id);
-    } catch (error) {
-      throw new HttpException('Lỗi BE', 500);
-    }
+    return await this.userService.deleteUser(id);
   }
 
   @ApiConsumes('mutilpart/form-data')
@@ -116,11 +103,6 @@ export class UserController {
     @Param('id') id: string,
     @UploadedFile() file: Express.Multer.File,
   ) {
-    // return file
-    try {
-      return this.userService.postAvatar(id, file.filename);
-    } catch (error) {
-      throw new HttpException('Lỗi BE', 500);
-    }
+    return this.userService.postAvatar(id, file.filename);
   }
 }

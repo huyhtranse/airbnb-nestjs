@@ -76,41 +76,25 @@ export class ReviewController {
       roomId: number;
     },
   ) {
-    try {
-      return await this.reviewService.createReview(body);
-    } catch (error) {
-      throw new InternalServerErrorException();
-    }
+    return await this.reviewService.createReview(body);
   }
 
   @Get()
   async reviews() {
-    try {
-      return await this.reviewService.reviews();
-    } catch (error) {
-      throw new InternalServerErrorException();
-    }
+    return await this.reviewService.reviews();
   }
 
   @ApiBearerAuth()
   @UseGuards(AuthGuard('jwt'))
   @Get('/:id')
   async reviewById(@Param('id') id: string) {
-    try {
-      return await this.reviewService.reviewById(id);
-    } catch (error) {
-      throw new InternalServerErrorException();
-    }
+    return await this.reviewService.reviewById(id);
   }
 
   @ApiBearerAuth()
   @Get('/room/:id')
   async reviewByRoomId(@Param('id') id: number) {
-    try {
-      return await this.reviewService.reviewByRoomId(id);
-    } catch (error) {
-      throw new InternalServerErrorException();
-    }
+    return await this.reviewService.reviewByRoomId(id);
   }
 
   @ApiBody({
@@ -130,21 +114,13 @@ export class ReviewController {
       roomId: number;
     },
   ) {
-    try {
-      return await this.reviewService.updateReview(body, id);
-    } catch (error) {
-      throw new InternalServerErrorException();
-    }
+    return await this.reviewService.updateReview(body, id);
   }
 
   @ApiBearerAuth()
   @UseGuards(AuthGuard('jwt'))
   @Delete('/delete/:id')
   async deleteReivew(@Param('id') id: string) {
-    try {
-      return await this.reviewService.deleteReivew(id);
-    } catch (error) {
-      throw new InternalServerErrorException();
-    }
+    return await this.reviewService.deleteReivew(id);
   }
 }

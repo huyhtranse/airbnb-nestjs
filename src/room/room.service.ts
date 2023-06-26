@@ -1,56 +1,25 @@
-import { HttpStatus, Injectable } from '@nestjs/common';
+import { ConflictException, HttpStatus, Injectable } from '@nestjs/common';
 import { ApiTags } from '@nestjs/swagger';
 import { PrismaService } from 'src/prisma/prisma.service';
+import { Room } from './interfaces/room.interface';
 
-@ApiTags("Room")
+@ApiTags('Room')
 @Injectable()
 export class RoomService {
   constructor(private readonly prismaService: PrismaService) {}
 
-  async createRoom(data: {
-    ten_phong: string;
-    khach: number;
-    phong_ngu: number;
-    giuong: number;
-    phong_tam: number;
-    mo_ta: string;
-    gia_tien: number;
-    may_giat: boolean;
-    ban_la: boolean;
-    tivi: boolean;
-    dieu_hoa: boolean;
-    wifi: boolean;
-    do_xe: boolean;
-    ho_boi: boolean;
-    ban_ui: boolean;
-    hinh_anh: string;
-    vi_tri_id: number;
-  }): Promise<any> {
-    const viTri = await this.prismaService.locations.findFirst({
+  async createRoom(room: Room): Promise<any> {
+    const location = await this.prismaService.locations.findFirst({
       where: {
-        id: data.vi_tri_id,
+        id: room.locationId,
       },
     });
-    if (viTri !== null) {
-      const room = await this.prismaService.rooms.create({
-        data,
+    if (location !== null) {
+      return await this.prismaService.rooms.create({
+        data: room,
       });
-      if (room) {
-        return {
-          statusCode: 200,
-          payload: room,
-        };
-      } else {
-        return {
-          statusCode: 404,
-          message: 'Tạo phòng thất bại.',
-        };
-      }
     } else {
-      return {
-        statusCode: 404,
-        content: 'Vị trí này không tồn tại.',
-      };
+      throw new ConflictException('Location does not exit');
     }
   }
 
@@ -58,7 +27,7 @@ export class RoomService {
     const rooms = await this.prismaService.rooms.findMany();
 
     if (rooms.length > 0) {
-      return rooms
+      return rooms;
     } else {
       return {
         statusCode: HttpStatus.NO_CONTENT,
@@ -90,7 +59,7 @@ export class RoomService {
     });
 
     if (room !== null) {
-      return room
+      return room;
     } else {
       return {
         statusCode: 204,
@@ -163,9 +132,9 @@ export class RoomService {
       };
     } else {
       const res = await this.prismaService.rooms.delete({
-        where: { id: +id }
+        where: { id: +id },
       });
-      
+
       if (res) {
         return {
           statusCode: 200,

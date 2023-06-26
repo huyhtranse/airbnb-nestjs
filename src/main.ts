@@ -20,11 +20,11 @@ async function bootstrap() {
     .addTag('Review')
     .build();
   const document = SwaggerModule.createDocument(app, config);
-
   SwaggerModule.setup('swagger', app, document);
 
   app.use(express.static('.'));
 
   await app.listen(8080);
+  console.log(`Application is running on: ${await app.getUrl()}`);
 }
 bootstrap();

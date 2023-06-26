@@ -12,7 +12,6 @@ import { LocationModule } from './location/location.module';
 import { BookingModule } from './booking/booking.module';
 import { PrismaModule } from './prisma/prisma.module';
 
-// kết nối các module khác và controller, serivce lại với nhau
 @Module({
   imports: [
     UserModule,

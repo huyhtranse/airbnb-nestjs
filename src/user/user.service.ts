@@ -1,4 +1,4 @@
-import { Injectable } from '@nestjs/common';
+import { ConflictException, Injectable } from '@nestjs/common';
 import { ApiTags } from '@nestjs/swagger';
 import { PrismaService } from 'src/prisma/prisma.service';
 import { User } from 'src/user/interfaces/user.interface';
@@ -8,56 +8,29 @@ import { User } from 'src/user/interfaces/user.interface';
 export class UserService {
   constructor(private readonly prismaService: PrismaService) {}
 
-  async create(user: User): Promise<User | any> {
+  async create(user: User): Promise<User> {
     const { email } = user;
     const userRes = await this.prismaService.users.findFirst({
       where: { email },
     });
 
     if (userRes === null) {
-      const userCreate = await this.prismaService.users.create({ data: user });
-      return userCreate;
+      return await this.prismaService.users.create({ data: user });
     } else {
-      return {
-        statusCode: 400,
-        message: 'Yêu cầu không hợp lệ!',
-        content: 'Email đã tồn tại !',
-      };
+      throw new ConflictException('Email already exits')
     }
   }
 
   async users() {
-    const users = await this.prismaService.users.findMany();
-
-    if (users.length > 0) {
-      return {
-        statusCode: 200,
-        content: users,
-      };
-    } else
-      return {
-        statusCode: 204,
-        content: 'Khong tim thay nguoi dung',
-      };
+     await this.prismaService.users.findMany();
   }
 
-  async userByID(id: string) {
-    const res = await this.prismaService.users.findMany({
+  async userByID(userId: number) {
+    return await this.prismaService.users.findMany({
       where: {
-        id: +id,
+        id: userId,
       },
     });
-    if (res.length > 0) {
-      return {
-        statusCode: 200,
-        content: res,
-      };
-    } else {
-      return {
-        statusCode: 404,
-        content: 'Không tìm thấy id người dùng',
-      };
-    }
   }
 
   async userByName(name: string) {
