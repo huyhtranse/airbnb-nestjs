@@ -16,6 +16,8 @@ import { AuthGuard } from '@nestjs/passport';
 import { FileInterceptor } from '@nestjs/platform-express';
 import { diskStorage } from 'multer';
 import { Express } from 'express';
+import { UpdateLocationDto } from './dto/update-location.dto';
+import { CreateLocationDto } from './dto/create-location.dto';
 
 @ApiTags('Location')
 @Controller('location')
@@ -24,59 +26,39 @@ export class LocationController {
 
   @ApiBearerAuth()
   @UseGuards(AuthGuard('jwt'))
-  @Post('/create-location/')
+  @Post()
   async createLocation(
     @Body()
-    body: {
-      ten_vi_tri: string;
-      binh_luan: string;
-      quoc_gia: string;
-      hinh_anh: string;
-    },
-  ): Promise<any> {
-    return this.locationService.createLocation(body);
+    createLocationDto: CreateLocationDto,
+  ) {
+    return this.locationService.createLocation(createLocationDto);
   }
 
   @Get()
-  async locations(): Promise<any> {
+  async locations() {
     return await this.locationService.locations();
   }
 
-  @Get('/get-location/:id')
-  async getLocationwithId(@Param('id') id: string): Promise<any> {
-    return await this.locationService.getLocationById(id);
+  @Get('/:id')
+  async getLocationwithId(@Param('id') id: string) {
+    return await this.locationService.locationById(+id);
   }
 
   @ApiBearerAuth()
   @UseGuards(AuthGuard('jwt'))
-  @Put('/update-location/:id')
+  @Put('/:id')
   async update(
-    @Param('id') id: number,
+    @Param('id') id: string,
     @Body()
-    body: {
-      ten_vi_tri: string;
-      binh_luan: string;
-      quoc_gia: string;
-      hinh_anh: string;
-    },
-  ): Promise<any> {
-    const { ten_vi_tri, binh_luan, quoc_gia, hinh_anh } = body;
-
-    return await this.locationService.updateLocation(
-      {
-        ten_vi_tri,
-        binh_luan,
-        quoc_gia,
-        hinh_anh,
-      },
-      id,
-    );
+    updateLocationDto: UpdateLocationDto,
+  ) {
+    return await this.locationService.update(updateLocationDto, +id);
   }
 
   @ApiBearerAuth()
   @UseGuards(AuthGuard('jwt'))
-  @Delete('/delete-location/:id')
-  async deleteLocation(@Param('id') id: string): Promise<any> {
+  @Delete('/:id')
+  async deleteLocation(@Param('id') id: string) {
     return await this.locationService.deleteLocation(id);
   }
 
@@ -93,6 +75,7 @@ export class LocationController {
       }),
     }),
   )
+  
   @UseGuards(AuthGuard('jwt'))
   @Post('/post-image/:id')
   postImage(

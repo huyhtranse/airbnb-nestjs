@@ -2,6 +2,7 @@ import { ConflictException, HttpStatus, Injectable } from '@nestjs/common';
 import { ApiTags } from '@nestjs/swagger';
 import { PrismaService } from 'src/prisma/prisma.service';
 import { Room } from './interfaces/room.interface';
+import { UpdateRoomDto } from './dto/update-room.dto';
 
 @ApiTags('Room')
 @Injectable()
@@ -24,16 +25,7 @@ export class RoomService {
   }
 
   async rooms(): Promise<any> {
-    const rooms = await this.prismaService.rooms.findMany();
-
-    if (rooms.length > 0) {
-      return rooms;
-    } else {
-      return {
-        statusCode: HttpStatus.NO_CONTENT,
-        message: 'No rooms',
-      };
-    }
+    return await this.prismaService.rooms.findMany();
   }
 
   async roomById(id: number) {
@@ -68,28 +60,7 @@ export class RoomService {
     }
   }
 
-  async updateRoomInfo(
-    id: number,
-    data: {
-      ten_phong: string;
-      khach: number;
-      phong_ngu: number;
-      giuong: number;
-      phong_tam: number;
-      mo_ta: string;
-      gia_tien: number;
-      may_giat: boolean;
-      ban_la: boolean;
-      tivi: boolean;
-      dieu_hoa: boolean;
-      wifi: boolean;
-      do_xe: boolean;
-      ho_boi: boolean;
-      ban_ui: boolean;
-      hinh_anh: string;
-      vi_tri_id: number;
-    },
-  ): Promise<any> {
+  async update(id: number, updateRoomDto: UpdateRoomDto): Promise<any> {
     const room = await this.prismaService.rooms.findFirst({
       where: { id: +id },
     });
@@ -101,7 +72,7 @@ export class RoomService {
       };
     } else {
       const room = await this.prismaService.rooms.update({
-        data,
+        data: updateRoomDto,
         where: {
           id: +id,
         },

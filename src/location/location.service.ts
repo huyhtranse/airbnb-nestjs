@@ -1,7 +1,6 @@
 import { Injectable } from '@nestjs/common';
 import { CreateLocationDto } from './dto/create-location.dto';
 import { UpdateLocationDto } from './dto/update-location.dto';
-import { PrismaClient } from '@prisma/client';
 import { ApiTags } from '@nestjs/swagger';
 import { PrismaService } from 'src/prisma/prisma.service';
 
@@ -10,14 +9,9 @@ import { PrismaService } from 'src/prisma/prisma.service';
 export class LocationService {
   constructor(private readonly prismaService: PrismaService) {}
 
-  async createLocation(data: {
-    ten_vi_tri: string;
-    binh_luan: string;
-    quoc_gia: string;
-    hinh_anh: string;
-  }): Promise<any> {
+  async createLocation(createLocationDto: CreateLocationDto) {
     const location = await this.prismaService.locations.create({
-      data,
+      data: createLocationDto,
     });
     if (location) {
       return {
@@ -36,7 +30,7 @@ export class LocationService {
     return await this.prismaService.locations.findMany();
   }
 
-  async getLocationById(id: string): Promise<any> {
+  async locationById(id: number) {
     const location = await this.prismaService.locations.findMany({
       where: {
         id: +id,
@@ -55,17 +49,9 @@ export class LocationService {
     }
   }
 
-  async updateLocation(
-    data: {
-      ten_vi_tri: string;
-      binh_luan: string;
-      quoc_gia: string;
-      hinh_anh: string;
-    },
-    id: number,
-  ): Promise<any> {
+  async update(updateLocationDto: UpdateLocationDto, id: number) {
     const checkId = await this.prismaService.locations.findFirst({
-      where: { id: +id },
+      where: { id: id },
     });
     if (checkId == null) {
       return {
@@ -74,7 +60,7 @@ export class LocationService {
       };
     } else {
       const location = await this.prismaService.locations.update({
-        data,
+        data: updateLocationDto,
         where: {
           id: +id,
         },
@@ -90,7 +76,7 @@ export class LocationService {
     }
   }
 
-  async deleteLocation(id: string): Promise<any> {
+  async deleteLocation(id: string) {
     const location = await this.prismaService.locations.findFirst({
       where: { id: +id },
     });

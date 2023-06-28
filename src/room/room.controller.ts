@@ -3,30 +3,20 @@ import {
   Get,
   Post,
   Body,
-  Patch,
   Param,
   Delete,
-  HttpException,
   Put,
   UseGuards,
   UseInterceptors,
   UploadedFile,
-  Headers,
-  HttpStatus,
-  InternalServerErrorException,
 } from '@nestjs/common';
 import { RoomService } from './room.service';
-import {
-  ApiBearerAuth,
-  ApiBody,
-  ApiConsumes,
-  ApiProperty,
-  ApiTags,
-} from '@nestjs/swagger';
+import { ApiBearerAuth, ApiBody, ApiConsumes, ApiTags } from '@nestjs/swagger';
 import { AuthGuard } from '@nestjs/passport';
 import { FileInterceptor } from '@nestjs/platform-express';
 import { diskStorage } from 'multer';
 import { CreateRoomDto } from './dto/create-room.dto';
+import { UpdateRoomDto } from './dto/update-room.dto';
 
 @ApiTags('Room')
 @Controller('room')
@@ -35,11 +25,11 @@ export class RoomController {
 
   @ApiBearerAuth()
   @UseGuards(AuthGuard('jwt'))
-  @Post('/create-room/')
+  @Post()
   async createRoom(
     @Body()
-    createRoomDto: CreateRoomDto
-  ): Promise<any> {
+    createRoomDto: CreateRoomDto,
+  ) {
     return this.roomService.createRoom(createRoomDto);
   }
 
@@ -53,44 +43,25 @@ export class RoomController {
     return this.roomService.roomById(+id);
   }
 
-  @Get('/location/:locationId')
+  @Get('/:locationId/location')
   async roomByLocation(@Param('locationId') id: string) {
     return this.roomService.roomByLocation(+id);
   }
 
   @ApiBearerAuth()
   @UseGuards(AuthGuard('jwt'))
-  @Put('/update-room/:id')
-  async updateRoomInfo(
+  @Put('/:id')
+  async update(
     @Param('id') id: string,
-
     @Body()
-    body: {
-      ten_phong: string;
-      khach: number;
-      phong_ngu: number;
-      giuong: number;
-      phong_tam: number;
-      mo_ta: string;
-      gia_tien: number;
-      may_giat: boolean;
-      ban_la: boolean;
-      tivi: boolean;
-      dieu_hoa: boolean;
-      wifi: boolean;
-      do_xe: boolean;
-      ho_boi: boolean;
-      ban_ui: boolean;
-      hinh_anh: string;
-      vi_tri_id: number;
-    },
-  ): Promise<any> {
-    return await this.roomService.updateRoomInfo(+id, body);
+    updateRoomDto: UpdateRoomDto,
+  ) {
+    return await this.roomService.update(+id, updateRoomDto);
   }
 
   @ApiBearerAuth()
   @UseGuards(AuthGuard('jwt'))
-  @Delete('/delete/:id')
+  @Delete('/:id')
   async removeRoom(@Param('id') id: string) {
     return await this.roomService.remove(+id);
   }

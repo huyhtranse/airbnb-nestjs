@@ -9,42 +9,17 @@ import { ApiTags } from '@nestjs/swagger';
 export class BookingService {
   prisma = new PrismaClient();
 
-  async createBooking(data: {
-    roomName: string;
-    checkIn: string;
-    checkOut: string;
-    guest: number;
-    userId: number;
-    roomId: number;
-  }): Promise<any> {
-    const res = await this.prisma.bookings.create({
-      data,
+  async create(createBookingDto: CreateBookingDto) {
+    return await this.prisma.bookings.create({
+      data: createBookingDto,
     });
-    if (res) {
-      return {
-        statusCode: 200,
-        content: res,
-      };
-    } else {
-      return {
-        statusCode: 404,
-        content: 'Đặt phòng thất bại',
-      };
-    }
   }
 
-  async bookings(): Promise<any> {
-    const bookings = await this.prisma.bookings.findMany();
-    if (bookings.length > 0) {
-      return bookings;
-    } else
-      return {
-        statusCode: 404,
-        content: 'Chưa có booking',
-      };
+  async bookings() {
+    return await this.prisma.bookings.findMany();
   }
 
-  async bookingById(id: string): Promise<any> {
+  async bookingById(id: string) {
     const res = await this.prisma.bookings.findMany({
       where: { id: +id },
     });
@@ -61,7 +36,7 @@ export class BookingService {
     }
   }
 
-  async bookingByUserId(id: string): Promise<any> {
+  async bookingByUserId(id: string) {
     const res = await this.prisma.bookings.findMany({
       where: {
         userId: +id,
@@ -80,17 +55,7 @@ export class BookingService {
     }
   }
 
-  async updateBooking(
-    data: {
-      roomName: string;
-      checkIn: string;
-      checkOut: string;
-      guest: number;
-      userId: number;
-      roomId: number;
-    },
-    id: number,
-  ): Promise<any> {
+  async update(booking: UpdateBookingDto, id: number) {
     const checkId = await this.prisma.bookings.findFirst({
       where: { id: +id },
     });
@@ -101,7 +66,7 @@ export class BookingService {
       };
     } else {
       const res = await this.prisma.bookings.update({
-        data,
+        data: booking,
         where: {
           id: +id,
         },
@@ -120,7 +85,7 @@ export class BookingService {
     }
   }
 
-  async deleteBooking(id: string): Promise<any> {
+  async delete(id: string) {
     const checkId = await this.prisma.bookings.findFirst({
       where: { id: +id },
     });
