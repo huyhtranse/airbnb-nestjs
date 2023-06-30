@@ -1,17 +1,20 @@
 import { Injectable } from '@nestjs/common';
 import { ConfigService } from '@nestjs/config';
 import { JwtService } from '@nestjs/jwt';
-import { ApiTags } from '@nestjs/swagger';
-import { PrismaClient } from '@prisma/client';
+import { PrismaService } from 'src/prisma/prisma.service';
 
 @Injectable()
 export class AuthService {
-  constructor(private jwtService: JwtService, private config: ConfigService) {}
+  constructor(
+    private jwtService: JwtService,
+    private config: ConfigService,
+    private readonly prismaService: PrismaService,
+  ) {}
 
-  prisma = new PrismaClient();
-
-  async logInUser(email: string, password: string): Promise<any> {
-    const user: any = await this.prisma.users.findFirst({ where: { email } });
+  async logIn(email: string, password: string) {
+    const user: any = await this.prismaService.users.findFirst({
+      where: { email },
+    });
 
     if (user !== null) {
       if (user?.password === password) {
@@ -40,8 +43,8 @@ export class AuthService {
     }
   }
 
-  async signUpUser(ten: string, email: string, mat_khau: string): Promise<any> {
-    const user = await this.prisma.users.findFirst({ where: { email } });
+  async signUp(ten: string, email: string, mat_khau: string) {
+    const user = await this.prismaService.users.findFirst({ where: { email } });
 
     if (!user) {
       const token = this.jwtService.sign(
@@ -50,7 +53,7 @@ export class AuthService {
       );
       const newUser = { ten, email, mat_khau };
 
-      await this.prisma.users.create({ data: newUser });
+      await this.prismaService.users.create({ data: newUser });
 
       return {
         statusCode: 200,

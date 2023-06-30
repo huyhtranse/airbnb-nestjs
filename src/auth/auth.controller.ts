@@ -3,14 +3,11 @@ import {
   Post,
   Body,
 } from '@nestjs/common';
-import { Users } from '@prisma/client';
-import { ApiBody, ApiTags } from '@nestjs/swagger';
+import { ApiTags } from '@nestjs/swagger';
 import { AuthService } from './auth.service';
 import {
   LogInDto,
-  LogInUserDto,
   SignUpDto,
-  SignUpUserDto,
 } from './dto/auth.dto';
 
 @ApiTags('Auth')
@@ -18,19 +15,17 @@ import {
 export class AuthController {
   constructor(private readonly authService: AuthService) {}
 
-  @ApiBody({ type: LogInUserDto })
   @Post('/login')
-  logInUser(@Body() body: LogInDto): Promise<Users> {
-    const { email, password } = body;
+  logInUser(@Body() logInDto: LogInDto) {
+    const { email, password } = logInDto;
 
-    return this.authService.logInUser(email, password);
+    return this.authService.logIn(email, password);
   }
 
-  @ApiBody({ type: SignUpUserDto })
   @Post('/signup')
-  async signUpUser(@Body() body: SignUpDto): Promise<Users> {
-    const { name, email, password } = body;
+  async signUpUser(@Body() signUpDto: SignUpDto) {
+    const { name, email, password } = signUpDto;
 
-    return await this.authService.signUpUser(name, email, password);
+    return await this.authService.signUp(name, email, password);
   }
 }

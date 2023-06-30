@@ -91,7 +91,7 @@ export class RoomService {
     }
   }
 
-  async remove(id: number) {
+  async delete(id: number) {
     const room = await this.prismaService.rooms.findFirst({
       where: { id: +id },
     });

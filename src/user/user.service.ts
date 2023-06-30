@@ -2,6 +2,7 @@ import { ConflictException, Injectable } from '@nestjs/common';
 import { ApiTags } from '@nestjs/swagger';
 import { PrismaService } from 'src/prisma/prisma.service';
 import { User } from 'src/user/interfaces/user.interface';
+import { UpdateUserDto } from './dto/update-user.dto';
 
 @ApiTags('User')
 @Injectable()
@@ -54,17 +55,9 @@ export class UserService {
     }
   }
 
-  async updateUser(
-    data: {
-      ten: string;
-      email: string;
-      mat_khau: string;
-      dien_thoai: string;
-      ngay_sinh: string;
-      gioi_tinh: string;
-      role: string;
-    },
+  async update(
     id: number,
+    updateUserDto: UpdateUserDto,
   ) {
     const checkId = await this.prismaService.users.findFirst({
       where: { id: +id },
@@ -76,7 +69,7 @@ export class UserService {
       };
     } else {
       const res = await this.prismaService.users.update({
-        data,
+        data: updateUserDto,
         where: {
           id: +id,
         },
@@ -95,9 +88,9 @@ export class UserService {
     }
   }
 
-  async deleteUser(id: string) {
+  async delete(id: number) {
     const checkId = await this.prismaService.users.findFirst({
-      where: { id: +id },
+      where: { id },
     });
     if (checkId === null) {
       return {

@@ -62,8 +62,8 @@ export class RoomController {
   @ApiBearerAuth()
   @UseGuards(AuthGuard('jwt'))
   @Delete('/:id')
-  async removeRoom(@Param('id') id: string) {
-    return await this.roomService.remove(+id);
+  async delete(@Param('id') id: string) {
+    return await this.roomService.delete(+id);
   }
 
   @ApiConsumes('mutilpart/form-data')

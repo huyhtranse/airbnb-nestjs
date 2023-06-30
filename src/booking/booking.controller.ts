@@ -21,8 +21,8 @@ export class BookingController {
 
   @ApiBearerAuth()
   @UseGuards(AuthGuard('jwt'))
-  @Post('/create')
-  async createBooking(
+  @Post()
+  async create(
     @Body()
     createBookingDto: CreateBookingDto,
   ) {
@@ -50,17 +50,17 @@ export class BookingController {
   @UseGuards(AuthGuard('jwt'))
   @Put('/:id')
   async update(
-    @Param('id') id: number,
+    @Param('id') id: string,
     @Body()
     updateRoomDto: UpdateBookingDto,
   ) {
-    return await this.bookingService.update(updateRoomDto, id);
+    return await this.bookingService.update(updateRoomDto, +id);
   }
 
   @ApiBearerAuth()
   @UseGuards(AuthGuard('jwt'))
   @Delete('/:id')
-  async deleteBooking(@Param('id') id: string) {
+  async delete(@Param('id') id: string) {
     return await this.bookingService.delete(id);
   }
 }

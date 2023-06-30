@@ -33,33 +33,15 @@ export class ReviewService {
   }
 
   async reviewByRoomId(id: number) {
-    const res = await this.prismaService.reviews.findMany({
+    return await this.prismaService.reviews.findMany({
       where: {
-        id: +id,
+        id,
       },
     });
-    if (res.length > 0) {
-      return {
-        statusCode: 200,
-        content: res,
-      };
-    } else {
-      return {
-        statusCode: 404,
-        content: 'Không tìm thấy bình luận',
-      };
-    }
   }
 
   async reviews() {
-    const reviews = await this.prismaService.reviews.findMany();
-    if (reviews.length > 0) {
-      return reviews;
-    } else
-      return {
-        statusCode: 204,
-        content: 'Review not found.',
-      };
+    return await this.prismaService.reviews.findMany();
   }
 
   async update(

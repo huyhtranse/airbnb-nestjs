@@ -24,6 +24,7 @@ import {
 } from '@nestjs/swagger';
 import { CreateUserDto } from './dto/create-user.dto';
 import { User } from './interfaces/user.interface';
+import { UpdateUserDto } from './dto/update-user.dto';
 
 @ApiTags('User')
 @Controller('user')
@@ -53,35 +54,27 @@ export class UserController {
     return await this.userService.userByID(+userId);
   }
 
-  @Get('/name/:name')
+  @Get('/:name/name')
   async userByName(@Param('name') name: string) {
     return await this.userService.userByName(name);
   }
 
   @ApiBearerAuth()
   @UseGuards(AuthGuard('jwt'))
-  @Put('/update/:id')
-  async updateUser(
-    @Param('id') id: number,
+  @Put('/:id')
+  async update(
+    @Param('id') id: string,
     @Body()
-    body: {
-      ten: string;
-      email: string;
-      mat_khau: string;
-      dien_thoai: string;
-      ngay_sinh: string;
-      gioi_tinh: string;
-      role: string;
-    },
+    updateUserDto: UpdateUserDto,
   ) {
-    return await this.userService.updateUser(body, id);
+    return await this.userService.update(+id, updateUserDto);
   }
 
   @ApiBearerAuth()
   @UseGuards(AuthGuard('jwt'))
-  @Delete('/delete/:id')
-  async deleteUser(@Param('id') id: string) {
-    return await this.userService.deleteUser(id);
+  @Delete('/:id')
+  async delete(@Param('id') id: string) {
+    return await this.userService.delete(+id);
   }
 
   @ApiConsumes('mutilpart/form-data')

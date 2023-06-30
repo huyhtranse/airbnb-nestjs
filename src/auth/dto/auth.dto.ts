@@ -1,64 +1,25 @@
 import { ApiProperty } from '@nestjs/swagger';
+import { UserRole } from 'src/user/interfaces/user.interface';
 
-export interface SignUpDto {
-  name: string;
+
+export class LogInDto {
+  @ApiProperty()
   email: string;
+
+  @ApiProperty()
   password: string;
 }
 
-export interface LogInDto {
-  email: string;
-  password: string;
-}
-
-export class LogInUserDto {
-  @ApiProperty({
-    description: 'email',
-    type: String,
-  })
-  email: string;
-
-  @ApiProperty({
-    description: 'mat_khau',
-    type: String,
-  })
-  mat_khau: string;
-}
-
-export class SignUpUserDto {
-  @ApiProperty({
-    description: 'name',
-    type: String,
-  })
+export class SignUpDto {
+  @ApiProperty()
   name: string;
-  @ApiProperty({
-    description: 'email',
-    type: String,
-  })
+
+  @ApiProperty()
   email: string;
-  @ApiProperty({
-    description: 'pass_word',
-    type: String,
-  })
-  pass_word: string;
-  @ApiProperty({
-    description: 'phone',
-    type: Number,
-  })
-  phone: number;
-  @ApiProperty({
-    description: 'birthday',
-    type: String,
-  })
-  birthday: string;
-  @ApiProperty({
-    description: 'gender',
-    type: String,
-  })
-  gender: string;
-  @ApiProperty({
-    description: 'role',
-    type: String,
-  })
-  role: string;
+
+  @ApiProperty()
+  password: string;
+  
+  @ApiProperty({ enum: UserRole })
+  role: UserRole;
 }
