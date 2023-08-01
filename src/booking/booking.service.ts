@@ -1,43 +1,37 @@
-import { Injectable } from '@nestjs/common';
+import { ConflictException, Injectable } from '@nestjs/common';
 import { CreateBookingDto } from './dto/create-booking.dto';
 import { UpdateBookingDto } from './dto/update-booking.dto';
-import { PrismaClient } from '@prisma/client';
 import { ApiTags } from '@nestjs/swagger';
+import { PrismaService } from 'src/prisma/prisma.service';
 
 @ApiTags('Booking')
 @Injectable()
 export class BookingService {
-  prisma = new PrismaClient();
+  constructor(private readonly prismaService: PrismaService) {}
 
   async create(createBookingDto: CreateBookingDto) {
-    return await this.prisma.bookings.create({
+    return await this.prismaService.bookings.create({
       data: createBookingDto,
     });
   }
 
   async bookings() {
-    return await this.prisma.bookings.findMany();
+    return await this.prismaService.bookings.findMany();
   }
 
   async bookingById(id: string) {
-    const res = await this.prisma.bookings.findMany({
+    const booking = await this.prismaService.bookings.findFirst({
       where: { id: +id },
     });
-    if (res.length > 0) {
-      return {
-        statusCode: 200,
-        content: res,
-      };
+    if (booking !== null) {
+      return booking;
     } else {
-      return {
-        statusCode: 404,
-        content: 'Không tìm thấy phòng đã đặt',
-      };
+      throw new ConflictException('Booking does not exit');
     }
   }
 
   async bookingByUserId(id: string) {
-    const res = await this.prisma.bookings.findMany({
+    const res = await this.prismaService.bookings.findMany({
       where: {
         userId: +id,
       },
@@ -56,7 +50,7 @@ export class BookingService {
   }
 
   async update(booking: UpdateBookingDto, id: number) {
-    const checkId = await this.prisma.bookings.findFirst({
+    const checkId = await this.prismaService.bookings.findFirst({
       where: { id: +id },
     });
     if (checkId == null) {
@@ -65,7 +59,7 @@ export class BookingService {
         content: 'Không tìm thấy id đặt phòng',
       };
     } else {
-      const res = await this.prisma.bookings.update({
+      const res = await this.prismaService.bookings.update({
         data: booking,
         where: {
           id: +id,
@@ -86,7 +80,7 @@ export class BookingService {
   }
 
   async delete(id: string) {
-    const checkId = await this.prisma.bookings.findFirst({
+    const checkId = await this.prismaService.bookings.findFirst({
       where: { id: +id },
     });
     if (checkId === null) {
@@ -95,7 +89,7 @@ export class BookingService {
         content: 'Không tìm thấy id đặt phòng',
       };
     } else {
-      const res = await this.prisma.bookings.delete({
+      const res = await this.prismaService.bookings.delete({
         where: { id: +id },
       });
       if (res) {

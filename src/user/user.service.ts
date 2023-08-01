@@ -18,12 +18,12 @@ export class UserService {
     if (userRes === null) {
       return await this.prismaService.users.create({ data: user });
     } else {
-      throw new ConflictException('Email already exits')
+      throw new ConflictException('Email already exits');
     }
   }
 
   async users() {
-     await this.prismaService.users.findMany();
+    await this.prismaService.users.findMany();
   }
 
   async userByID(userId: number) {
@@ -44,21 +44,14 @@ export class UserService {
     });
     if (users.length > 0) {
       return {
-        statusCode: 200,
         payload: users,
       };
     } else {
-      return {
-        statusCode: 404,
-        content: 'Không tìm thấy tên người dùng',
-      };
+      throw new ConflictException('User does not exit');
     }
   }
 
-  async update(
-    id: number,
-    updateUserDto: UpdateUserDto,
-  ) {
+  async update(id: number, updateUserDto: UpdateUserDto) {
     const checkId = await this.prismaService.users.findFirst({
       where: { id: +id },
     });
@@ -115,7 +108,7 @@ export class UserService {
     }
   }
 
-  async postAvatar(userId: string, path: string) {
+  async postAvatar(userId: string) {
     const user = await this.prismaService.users.findFirst({
       where: { id: +userId },
     });

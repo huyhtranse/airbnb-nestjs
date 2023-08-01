@@ -2,6 +2,7 @@ import { Injectable } from '@nestjs/common';
 import { ConfigService } from '@nestjs/config';
 import { JwtService } from '@nestjs/jwt';
 import { PrismaService } from 'src/prisma/prisma.service';
+import { LogInDto, SignUpDto } from './dto/auth.dto';
 
 @Injectable()
 export class AuthService {
@@ -11,7 +12,8 @@ export class AuthService {
     private readonly prismaService: PrismaService,
   ) {}
 
-  async logIn(email: string, password: string) {
+  async logIn(logInDto: LogInDto) {
+    const { email, password } = logInDto;
     const user: any = await this.prismaService.users.findFirst({
       where: { email },
     });
@@ -24,9 +26,7 @@ export class AuthService {
         );
 
         return {
-          statusCode: 200,
           payload: { user },
-          message: 'Đăng nhập thành công',
           token,
         };
       } else {
@@ -43,7 +43,8 @@ export class AuthService {
     }
   }
 
-  async signUp(ten: string, email: string, mat_khau: string) {
+  async signUp(signUpDto: SignUpDto) {
+    const { email } = signUpDto;
     const user = await this.prismaService.users.findFirst({ where: { email } });
 
     if (!user) {
@@ -51,9 +52,8 @@ export class AuthService {
         { data: user },
         { secret: this.config.get('SECRET_KEY'), expiresIn: '7d' },
       );
-      const newUser = { ten, email, mat_khau };
 
-      await this.prismaService.users.create({ data: newUser });
+      await this.prismaService.users.create({ data: signUpDto });
 
       return {
         statusCode: 200,
